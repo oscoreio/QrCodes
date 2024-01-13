@@ -15,15 +15,20 @@
   <PropertyGroup Label="NuGet">
     <PackageId>Oscore.$(AssemblyName)</PackageId>
     <Description>Cross-platform QR code generation based on ImageSharp and QRCoder with logo support.</Description>
-    <PackageTags>maui;qr;qrcode;cross-platform;logo;imagesharp;net8</PackageTags>
+    <PackageTags>maui;qr;qrcode;qrcoder;cross-platform;logo;imagesharp;net8</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DependencyPropertyGenerator" Version="1.4.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QrCodeGenerator\QrCodeGenerator.csproj" />
+    <ProjectReference Include="..\QrCodes.ImageSharp\QrCodes.ImageSharp.csproj" />
+    <ProjectReference Include="..\QrCodes\QrCodes.csproj" />
   </ItemGroup>
 
 </Project>

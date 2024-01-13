@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="QrCodes.SampleApp.StaticExamplesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:qr="clr-namespace:QrCodes.Maui;assembly=QrCodes.Maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <FlexLayout>
+        <VerticalStackLayout Padding="30,0" Spacing="5">
+            <Label HorizontalTextAlignment="Center" Text="Empty:" />
+            <Image
+                HeightRequest="200"
+                Source="{qr:QrCode}"
+                WidthRequest="200" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Padding="30,0" Spacing="5">
+            <Label HorizontalTextAlignment="Center" Text="Fixed value:" />
+            <Image
+                HeightRequest="200"
+                Source="{qr:QrCode 'Fixed value'}"
+                WidthRequest="200" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Padding="30,0" Spacing="5">
+            <Label HorizontalTextAlignment="Center" Text="Logo:" />
+            <Image
+                HeightRequest="200"
+                Source="{qr:QrCode 'Fixed value',
+                                   LogoSource='apple_logo_black'}"
+                WidthRequest="200" />
+        </VerticalStackLayout>
+    </FlexLayout>
+
+</ContentPage>

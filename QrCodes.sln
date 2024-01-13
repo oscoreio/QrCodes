@@ -1,0 +1,89 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32314.265
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{94FE90BF-FA05-46C6-A207-6E454A236659}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+		LICENSE = LICENSE
+		.github\dependabot.yml = .github\dependabot.yml
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{928D4422-05CE-4AC2-89B0-31060889AE6A}"
+	ProjectSection(SolutionItems) = preProject
+		src\libs\Directory.Build.props = src\libs\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{4746EB5B-E37C-40F0-8CA6-7D03185F5370}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8DEF204E-ED5E-45A8-B021-47F6588890F4}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		.github\workflows\pr.yml = .github\workflows\pr.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodes", "src\libs\QrCodes\QrCodes.csproj", "{ACBC71C5-0EE8-42E0-99F1-346F25BCCCC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodes.Maui", "src\libs\QrCodes.Maui\QrCodes.Maui.csproj", "{EB07E7B5-512D-469E-8607-B7795029CD8D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1669A018-361A-45EA-B5B1-E6661B2D8A54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodes.Tests", "src\tests\QrCodes.Tests\QrCodes.Tests.csproj", "{B71CA16E-6BB7-47A5-A435-0E523362CB35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodes.SampleApp", "sample\QrCodes.SampleApp.csproj", "{3DD2F019-43A1-4FD1-9169-8E722D0C49DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodes.ImageSharp", "src\libs\QrCodes.ImageSharp\QrCodes.ImageSharp.csproj", "{594FD49C-F7AC-44EC-98D7-788E83D6260D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{732F539D-3402-4E31-AD43-F3653C9F2F0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodes.Benchmarks", "src\benchmarks\QrCodes.Benchmarks\QrCodes.Benchmarks.csproj", "{507C686B-CBB2-4559-8FCC-DBFA90B3E987}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACBC71C5-0EE8-42E0-99F1-346F25BCCCC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBC71C5-0EE8-42E0-99F1-346F25BCCCC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBC71C5-0EE8-42E0-99F1-346F25BCCCC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBC71C5-0EE8-42E0-99F1-346F25BCCCC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB07E7B5-512D-469E-8607-B7795029CD8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB07E7B5-512D-469E-8607-B7795029CD8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB07E7B5-512D-469E-8607-B7795029CD8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB07E7B5-512D-469E-8607-B7795029CD8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B71CA16E-6BB7-47A5-A435-0E523362CB35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B71CA16E-6BB7-47A5-A435-0E523362CB35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B71CA16E-6BB7-47A5-A435-0E523362CB35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B71CA16E-6BB7-47A5-A435-0E523362CB35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DD2F019-43A1-4FD1-9169-8E722D0C49DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DD2F019-43A1-4FD1-9169-8E722D0C49DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DD2F019-43A1-4FD1-9169-8E722D0C49DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DD2F019-43A1-4FD1-9169-8E722D0C49DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{594FD49C-F7AC-44EC-98D7-788E83D6260D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{594FD49C-F7AC-44EC-98D7-788E83D6260D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{594FD49C-F7AC-44EC-98D7-788E83D6260D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{594FD49C-F7AC-44EC-98D7-788E83D6260D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{507C686B-CBB2-4559-8FCC-DBFA90B3E987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{507C686B-CBB2-4559-8FCC-DBFA90B3E987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{507C686B-CBB2-4559-8FCC-DBFA90B3E987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{507C686B-CBB2-4559-8FCC-DBFA90B3E987}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8DEF204E-ED5E-45A8-B021-47F6588890F4} = {94FE90BF-FA05-46C6-A207-6E454A236659}
+		{ACBC71C5-0EE8-42E0-99F1-346F25BCCCC0} = {928D4422-05CE-4AC2-89B0-31060889AE6A}
+		{EB07E7B5-512D-469E-8607-B7795029CD8D} = {928D4422-05CE-4AC2-89B0-31060889AE6A}
+		{B71CA16E-6BB7-47A5-A435-0E523362CB35} = {1669A018-361A-45EA-B5B1-E6661B2D8A54}
+		{3DD2F019-43A1-4FD1-9169-8E722D0C49DB} = {4746EB5B-E37C-40F0-8CA6-7D03185F5370}
+		{594FD49C-F7AC-44EC-98D7-788E83D6260D} = {928D4422-05CE-4AC2-89B0-31060889AE6A}
+		{507C686B-CBB2-4559-8FCC-DBFA90B3E987} = {732F539D-3402-4E31-AD43-F3653C9F2F0C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1493AEE4-9211-46E9-BFE6-8F629EAC5693}
+	EndGlobalSection
+EndGlobal

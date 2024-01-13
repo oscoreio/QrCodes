@@ -29,5 +29,5 @@ jobs:
           ./workload-install.ps1
 
       - name: Build
-        run: dotnet build src/libs/QrCodeGenerator.Maui
+        run: dotnet build src/libs/QrCodes.Maui
           --configuration Release

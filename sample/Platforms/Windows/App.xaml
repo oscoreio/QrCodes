@@ -1,8 +1,6 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="QrCodeGenerator.SampleApp.WinUI.App"
+    x:Class="QrCodes.SampleApp.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QrCodes.SampleApp.WinUI"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:QrCodeGenerator.SampleApp.WinUI">
-
-</maui:MauiWinUIApplication>
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" />

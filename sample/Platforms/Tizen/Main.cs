@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace QrCodeGenerator.SampleApp;
+namespace QrCodes.SampleApp;
 
 class Program : MauiApplication
 {

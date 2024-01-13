@@ -1,6 +1,8 @@
 MIT License
 
-Copyright (c) 2024 Oscore Ltd.
+Copyright for portions of the QRCoder are held by (c) Raffael Herrmann, 2013-2018. 
+Some other copyright for enhancements and migration to ImageSharp are held by Joerg Plenert, 2022.
+All other copyright(logo support, update to latest dotnet) are held by Oscore Ltd., 2024.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

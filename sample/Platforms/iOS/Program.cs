@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace QrCodeGenerator.SampleApp;
+namespace QrCodes.SampleApp;
 
 public class Program
 {

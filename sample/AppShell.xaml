@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="QrCodeGenerator.SampleApp.AppShell"
+    FlyoutBehavior="Locked"
+    Title="QrCodes.SampleApp"
+    x:Class="QrCodes.SampleApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:QrCodeGenerator.SampleApp"
-    Shell.FlyoutBehavior="Disabled"
-    Title="QrCodeGenerator.SampleApp">
+    xmlns:local="clr-namespace:QrCodes.SampleApp"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        ContentTemplate="{DataTemplate local:StartPage}"
+        Route="StartPage"
+        Title="Start" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate local:DynamicExamplePage}"
+        Route="DynamicExamplePage"
+        Title="Dynamic Example" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate local:StaticExamplesPage}"
+        Route="StaticExamplesPage"
+        Title="Static Examples" />
 
 </Shell>

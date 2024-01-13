@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace QrCodeGenerator.SampleApp;
+namespace QrCodes.SampleApp;
 
 [Application]
 public class MainApplication : MauiApplication

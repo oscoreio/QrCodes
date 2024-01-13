@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace QrCodeGenerator.SampleApp;
+namespace QrCodes.SampleApp;
 
 public static class MauiProgram
 {

@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace QrCodeGenerator.SampleApp;
+namespace QrCodes.SampleApp;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

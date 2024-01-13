@@ -1,4 +1,4 @@
-﻿namespace QrCodeGenerator.SampleApp;
+﻿namespace QrCodes.SampleApp;
 
 public partial class AppShell : Shell
 {
