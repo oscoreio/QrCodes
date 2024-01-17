@@ -8,7 +8,7 @@ public enum Renderer
     /// <summary>
     /// 
     /// </summary>
-    Png,
+    FastPng,
     
     /// <summary>
     /// 

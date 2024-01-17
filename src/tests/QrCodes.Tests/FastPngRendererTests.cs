@@ -1,7 +1,5 @@
 ﻿using Xunit;
-using QrCodes;
 using QrCodes.Renderers;
-using FluentAssertions;
 using QrCodes.Tests.Helpers;
 
 namespace QrCodes.Tests;
@@ -13,7 +11,7 @@ namespace QrCodes.Tests;
  *       test method makes sense. In addition bytewise differences shouldn't be important, if the
  *       visual outcome is identical and thus the qr code is identical/scannable.
  ****************************************************************************************************/
-public class PngByteQrCodeRendererTests
+public class FastPngRendererTests
 {
     const string QRCodeContent = "This is a quick test! 123#?";
     const string VisualTestPath = null;
@@ -22,7 +20,7 @@ public class PngByteQrCodeRendererTests
     public void can_render_pngbyte_qrcode_blackwhite()
     {
         var data = QrCodeGenerator.Generate(QRCodeContent, ErrorCorrectionLevel.Low);
-        var pngCodeGfx = PngRenderer.Render(data, 5);
+        var pngCodeGfx = FastPngRenderer.Render(data, 5);
         
         HelperFunctions.TestByHash(pngCodeGfx, "90869fd365fe75e8aef3da40765dd5cc");
         HelperFunctions.TestByDecode(pngCodeGfx, QRCodeContent);
@@ -33,7 +31,7 @@ public class PngByteQrCodeRendererTests
     public void can_render_pngbyte_qrcode_color()
     {
         var data = QrCodeGenerator.Generate(QRCodeContent, ErrorCorrectionLevel.Low);
-        var pngCodeGfx = PngRenderer.Render(data, 5, [255, 0, 0], [0, 0, 255]);
+        var pngCodeGfx = FastPngRenderer.Render(data, 5, [255, 0, 0], [0, 0, 255]);
 
         HelperFunctions.TestByHash(pngCodeGfx, "55093e9b9e39dc8368721cb535844425");
         // HelperFunctions.TestByDecode(pngCodeGfx, QRCodeContent); => Not decodable
@@ -45,7 +43,7 @@ public class PngByteQrCodeRendererTests
     public void can_render_pngbyte_qrcode_color_with_alpha()
     {
         var data = QrCodeGenerator.Generate(QRCodeContent, ErrorCorrectionLevel.Low);
-        var pngCodeGfx = PngRenderer.Render(data, 5, [255, 255, 255, 127], [0, 0, 255]);
+        var pngCodeGfx = FastPngRenderer.Render(data, 5, [255, 255, 255, 127], [0, 0, 255]);
 
         HelperFunctions.TestByHash(pngCodeGfx, "afc7674cb4849860cbf73684970e5332");
         // HelperFunctions.TestByDecode(pngCodeGfx, QRCodeContent); => Not decodable
@@ -56,7 +54,7 @@ public class PngByteQrCodeRendererTests
     public void can_render_pngbyte_qrcode_color_without_quietzones()
     {
         var data = QrCodeGenerator.Generate(QRCodeContent, ErrorCorrectionLevel.Low);
-        var pngCodeGfx = PngRenderer.Render(data, 5, [255, 255, 255, 127], [0, 0, 255], false);
+        var pngCodeGfx = FastPngRenderer.Render(data, 5, [255, 255, 255, 127], [0, 0, 255], false);
 
         HelperFunctions.TestByHash(pngCodeGfx, "af60811deaa524e0d165baecdf40ab72");
         // HelperFunctions.TestByDecode(pngCodeGfx, QRCodeContent); => not decodable
@@ -67,7 +65,7 @@ public class PngByteQrCodeRendererTests
     public void can_render_pngbyte_qrcode_from_helper()
     {
         var data = QrCodeGenerator.Generate(QRCodeContent, ErrorCorrectionLevel.Low);
-        var pngCodeGfx = PngRenderer.Render(data, 10);
+        var pngCodeGfx = FastPngRenderer.Render(data, 10);
 
         //Create QR code                   
         HelperFunctions.TestByHash(pngCodeGfx, "e649d6a485873ac18b5aab791f325284");
@@ -79,7 +77,7 @@ public class PngByteQrCodeRendererTests
     public void can_render_pngbyte_qrcode_from_helper_2()
     {
         var data = QrCodeGenerator.Generate("This is a quick test! 123#?", ErrorCorrectionLevel.Low);
-        var pngCodeGfx = PngRenderer.Render(data, 5, [255, 255, 255, 127], [0, 0, 255]);
+        var pngCodeGfx = FastPngRenderer.Render(data, 5, [255, 255, 255, 127], [0, 0, 255]);
 
         HelperFunctions.TestByHash(pngCodeGfx, "afc7674cb4849860cbf73684970e5332");
         // HelperFunctions.TestByDecode(pngCodeGfx, QRCodeContent); => not decodable

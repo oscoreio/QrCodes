@@ -26,7 +26,7 @@ public class Benchmarks
     
     [Benchmark]
     [BenchmarkCategory("Renderers")]
-    public byte[] PngRenderer_() => PngRenderer.Render(_qrCode);
+    public byte[] FastPngRenderer_() => FastPngRenderer.Render(_qrCode);
     
     [Benchmark]
     [BenchmarkCategory("Renderers")]

@@ -5,7 +5,7 @@ namespace QrCodes.Renderers;
 /// <summary>
 /// 
 /// </summary>
-public static class PngRenderer
+public static class FastPngRenderer
 {
     /// <summary>
     /// Creates a black and white PNG of the QR code, using 1-bit grayscale.

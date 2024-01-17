@@ -21,6 +21,14 @@
                 WidthRequest="200" />
         </VerticalStackLayout>
         <VerticalStackLayout Padding="30,0" Spacing="5">
+            <Label HorizontalTextAlignment="Center" Text="Fast png:" />
+            <Image
+                HeightRequest="200"
+                Source="{qr:QrCode 'Fast png rendering',
+                                   Renderer=FastPng}"
+                WidthRequest="200" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Padding="30,0" Spacing="5">
             <Label HorizontalTextAlignment="Center" Text="Logo:" />
             <Image
                 HeightRequest="200"

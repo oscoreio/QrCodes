@@ -94,9 +94,9 @@ public partial class QrCodeSource : StreamImageSource
                 return new MemoryStream(bytes);
             }
 
-            case Renderer.Png:
+            case Renderer.FastPng:
             {
-                var bytes = PngRenderer.Render(
+                var bytes = FastPngRenderer.Render(
                     qrCode,
                     pixelsPerModule: PixelsPerModule,
                     drawQuietZones: DrawQuietZones);
