@@ -36,8 +36,15 @@ public partial class ImageSharpRendererTests
     [Fact]
     public void can_create_qrcode_standard_graphic_without_quietzones()
     {
-        var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 5, Color.Black, Color.White, false);
+        var qrCode = QrCodeGenerator.Generate(
+            plainText: QrCodeContent,
+            eccLevel: ErrorCorrectionLevel.High);
+        var image = ImageSharpRenderer.Render(
+            data: qrCode,
+            pixelsPerModule: 5,
+            darkColor: Color.Black,
+            lightColor: Color.White,
+            drawQuietZones: false);
         
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_standard_graphic_without_quietzones), image);
         HelperFunctions.TestByDecode(image, QrCodeContent);

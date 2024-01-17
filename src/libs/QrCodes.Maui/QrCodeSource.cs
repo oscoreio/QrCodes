@@ -5,7 +5,8 @@ using QrCodes.Renderers;
 namespace QrCodes.Maui;
 
 /// <summary>
-/// 
+/// Refs: <br/>
+/// https://github.com/CommunityToolkit/Maui/blob/main/src/CommunityToolkit.Maui/ImageSources/GravatarImageSource.shared.cs
 /// </summary>
 [DependencyProperty<string>("Value", OnChanged = nameof(OnChanged))]
 [DependencyProperty<ErrorCorrectionLevel>("ErrorCorrectionLevel", DefaultValue = ErrorCorrectionLevel.High, OnChanged = nameof(OnChanged))]

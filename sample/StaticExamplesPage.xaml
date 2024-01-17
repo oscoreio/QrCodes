@@ -2,7 +2,7 @@
 <ContentPage
     x:Class="QrCodes.SampleApp.StaticExamplesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:qr="clr-namespace:QrCodes.Maui;assembly=QrCodes.Maui"
+    xmlns:qr="https://qr.codes/"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <FlexLayout>

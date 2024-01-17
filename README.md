@@ -6,7 +6,6 @@ Based on QRCoder with ImageSharp support.
 - Use ImageSharp instead of System.Drawing to be cross-platform.
 - Support latest dotnet versions.
 - Generate QR code with logo image.
-- Generate Art QR code.
 - Supports next payloads
   - BezahlCode
   - Bitcoin like address
@@ -27,16 +26,46 @@ Based on QRCoder with ImageSharp support.
   - SwissQRCode
   - Url
   - WhatsAppMessage
+  - Telegram
   - Wi-Fi
 - Supports next renderers
   - Ascii
   - Base64
-  - Image(ImageSharp)
-  - Bitmap(.bmp)
-  - PNG
-  - PDF
   - SVG
   - PostScript
+  - PNG - fast but not support all features
+  - Bitmap(.bmp) - fast but not support all features
+  - ImageSharp - powerful, allows many features and export formats
+  - PDF - powered by ImageSharp
+
+### Usage
+```
+dotnet add package QrCodes // Base library with all payloads and some renderers(Ascii, Base64, Bitmap, PNG, SVG, PostScript)
+dotnet add package QrCodes.ImageSharp // ImageSharpRenderer(Gif, Jpeg, Png, Tiff, WebP, Bmp, Pbm, Tga), Export to PDF
+dotnet add package QrCodes.Maui // MAUI helpers(QrCodeSource and QrCodeExtension markup extension)
+```
+
+#### Generate QR code with logo image
+```csharp
+var qrCode = QrCodeGenerator.Generate(
+    plainText: new Telegram(user: "havendv").ToString(),
+    eccLevel: ErrorCorrectionLevel.High);
+var image = ImageSharpRenderer.Render(
+    data: qrCode,
+    pixelsPerModule: 5,
+    darkColor: Color.Black,
+    lightColor: Color.White,
+    drawQuietZones: false);
+```
+
+#### Generate ImageSource for MAUI
+You can test all variants using [QrCodes.SampleApp MAUI app](sample)
+```
+xmlns:qr="https://qr.codes/"
+```
+```xml
+<Image Source="{qr:QrCode 'Fixed value'}" />
+```
 
 ### Links
 - https://github.com/SixLabors/ImageSharp
@@ -45,7 +74,7 @@ Based on QRCoder with ImageSharp support.
 - https://dev.to/vhugogarcia/generate-qr-code-in-net-maui-3c8n
 - https://qrapi.io/
 - https://github.com/manuelbl/QrCodeGenerator
-
+- https://qr.io/
 
 ### Benchmarks
 You can view the reports for each version [here](benchmarks)
@@ -74,6 +103,6 @@ Categories=Renderers
 ### Legal information and credits
 
 It was forked from the [QRCoder-ImageSharp](https://github.com/JPlenert/QRCoder-ImageSharp) project.  
-QRCoder is a project by [Raffael Herrmann](https://raffaelherrmann.de) and was first released in 10/2013.
-QRCoder-ImageSharp is a project by [Joerg Plenert](https://plenert.net). 
+QRCoder is a project by [Raffael Herrmann](https://raffaelherrmann.de) and was first released in 10/2013.  
+QRCoder-ImageSharp is a project by [Joerg Plenert](https://plenert.net).  
 It's licensed under the [MIT license](https://github.com/JPlenert/QRCoder.ImageSharp/blob/master/license.txt).
