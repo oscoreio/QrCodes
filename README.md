@@ -1,5 +1,6 @@
 # QrCodes
-Modern cross-platform QR code generation, rendering and serialization.  
+Modern and efficient cross-platform QR code generation, rendering and serialization. 
+It contains various payloads and framework helpers for MAUI.  
 Based on QRCoder with ImageSharp support.  
 
 ### 🔥 Features 🔥
@@ -33,16 +34,22 @@ Based on QRCoder with ImageSharp support.
   - Base64
   - SVG
   - PostScript
-  - PNG - fast but not support all features
+  - FastPngRenderer - fast but not support all features
   - Bitmap(.bmp) - fast but not support all features
   - ImageSharp - powerful, allows many features and export formats
   - PDF - powered by ImageSharp
+- Supports helpers for MAUI
+  - QrCodeSource - ImageSource to produce QR code
+  - QrCodeExtension markup extension - Simplifies usage of QrCodeSource
 
 ### Usage
 ```
-dotnet add package QrCodes // Base library with all payloads and some renderers(Ascii, Base64, Bitmap, PNG, SVG, PostScript)
-dotnet add package QrCodes.ImageSharp // ImageSharpRenderer(Gif, Jpeg, Png, Tiff, WebP, Bmp, Pbm, Tga), Export to PDF
-dotnet add package QrCodes.Maui // MAUI helpers(QrCodeSource and QrCodeExtension markup extension)
+// Base library with all payloads and some renderers(Ascii, Base64, Bitmap, PNG, SVG, PostScript)
+dotnet add package QrCodes
+// ImageSharpRenderer(Gif, Jpeg, Png, Tiff, WebP, Bmp, Pbm, Tga), Export to PDF
+dotnet add package QrCodes.ImageSharp
+// MAUI helpers(QrCodeSource and QrCodeExtension markup extension)
+dotnet add package QrCodes.Maui
 ```
 
 #### Generate QR code with logo image
@@ -61,7 +68,7 @@ var image = ImageSharpRenderer.Render(
 #### Generate ImageSource for MAUI
 You can test all variants using [QrCodes.SampleApp MAUI app](sample)
 ```
-xmlns:qr="https://qr.codes/"
+xmlns:qr="clr-namespace:QrCodes.Maui;assembly=QrCodes.Maui"
 ```
 ```xml
 <Image Source="{qr:QrCode 'Fixed value'}" />

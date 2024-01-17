@@ -18,16 +18,16 @@
     <PackageTags>maui;qr;qrcode;qrcoder;cross-platform;logo;imagesharp;net8</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Label="AssemblyInfo">
-    <AssemblyAttribute Include="Microsoft.Maui.Controls.XmlnsPrefix">
-      <_Parameter1>https://qr.codes/</_Parameter1>
-      <_Parameter2>qr</_Parameter2>
-    </AssemblyAttribute>
-    <AssemblyAttribute Include="Microsoft.Maui.Controls.XmlnsDefinition">
-      <_Parameter1>https://qr.codes/</_Parameter1>
-      <_Parameter2>QrCodes.Maui</_Parameter2>
-    </AssemblyAttribute>
-  </ItemGroup>
+<!--  <ItemGroup Label="AssemblyInfo">-->
+<!--    <AssemblyAttribute Include="Microsoft.Maui.Controls.XmlnsPrefix">-->
+<!--      <_Parameter1>https://qr.codes/</_Parameter1>-->
+<!--      <_Parameter2>qr</_Parameter2>-->
+<!--    </AssemblyAttribute>-->
+<!--    <AssemblyAttribute Include="Microsoft.Maui.Controls.XmlnsDefinition">-->
+<!--      <_Parameter1>https://qr.codes/</_Parameter1>-->
+<!--      <_Parameter2>QrCodes.Maui</_Parameter2>-->
+<!--    </AssemblyAttribute>-->
+<!--  </ItemGroup>-->
 
   <ItemGroup>
     <PackageReference Include="DependencyPropertyGenerator" Version="1.4.0">
