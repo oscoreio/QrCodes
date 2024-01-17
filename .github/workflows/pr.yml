@@ -28,6 +28,14 @@ jobs:
           Invoke-WebRequest 'https://raw.githubusercontent.com/Samsung/Tizen.NET/main/workload/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
           ./workload-install.ps1
 
-      - name: Build
+      - name: Build QrCodes
+        run: dotnet build src/libs/QrCodes
+          --configuration Release
+
+      - name: Build QrCodes.ImageSharp
+        run: dotnet build src/libs/QrCodes.ImageSharp
+          --configuration Release
+
+      - name: Build QrCodes.Maui
         run: dotnet build src/libs/QrCodes.Maui
           --configuration Release
