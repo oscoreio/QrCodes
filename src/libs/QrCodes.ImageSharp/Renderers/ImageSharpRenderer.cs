@@ -1,4 +1,7 @@
 using SixLabors.ImageSharp;
+#if NET6_0_OR_GREATER
+using SixLabors.ImageSharp.Drawing.Processing;
+#endif
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
@@ -54,14 +57,21 @@ public static class ImageSharpRenderer
                 y: (image.Height - iconDestHeight) / 2,
                 width: iconDestWidth,
                 height: iconDestHeight);
-            var centerDest = iconDestRect;
-            centerDest.Inflate(iconBorderWidth, iconBorderWidth);
 
             if (iconBorderWidth > 0)
             {
                 iconBackgroundColor ??= Color.White;
                 if (iconBackgroundColor != Color.Transparent)
                 {
+                    var centerDest = iconDestRect;
+                    centerDest.Inflate(iconBorderWidth, iconBorderWidth);
+                    
+#if NET6_0_OR_GREATER
+                    image.Mutate(context =>
+                    {
+                        context.Fill(iconBackgroundColor.Value, centerDest);
+                    });
+#else
                     image.ProcessPixelRows(accessor =>
                     {
                         for (int y = (int)centerDest.Top; y <= (int)centerDest.Bottom; y++)
@@ -74,6 +84,7 @@ public static class ImageSharpRenderer
                             }
                         }
                     });
+#endif
                 }
             }
 
