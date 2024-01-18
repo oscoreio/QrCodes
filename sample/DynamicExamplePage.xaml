@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:qr="clr-namespace:QrCodes.Maui;assembly=QrCodes.Maui"
     xmlns:qrCodes="clr-namespace:QrCodes;assembly=QrCodes"
+    xmlns:renderers="clr-namespace:QrCodes.Renderers;assembly=QrCodes.ImageSharp"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <ScrollView>
@@ -82,6 +83,11 @@
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
+            <Label HorizontalTextAlignment="Center" Text="BackgroundType:" />
+            <Picker
+                ItemsSource="{qr:Enum Type={x:Type renderers:BackgroundType}}"
+                SelectedItem="{x:Static renderers:BackgroundType.Circle}"
+                x:Name="BackgroundTypePicker" />
             <Label HorizontalTextAlignment="Center" Text="{Binding Value, Source={x:Reference IconSizePercentSlider}, StringFormat='IconSizePercent: {0}'}" />
             <Slider
                 HorizontalOptions="Center"
@@ -118,6 +124,8 @@
                                                             Source={x:Reference IconSizePercentSlider}},
                                    IconBorderWidth={Binding Value,
                                                             Source={x:Reference IconBorderWidthSlider}},
+                                   BackgroundType={Binding SelectedItem,
+                                                           Source={x:Reference BackgroundTypePicker}},
                                    IconBackgroundColor={Binding SelectedItem,
                                                                 Source={x:Reference IconBackgroundColorPicker}}}"
                 WidthRequest="400" />

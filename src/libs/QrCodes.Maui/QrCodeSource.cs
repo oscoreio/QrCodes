@@ -11,13 +11,14 @@ namespace QrCodes.Maui;
 [DependencyProperty<string>("Value", OnChanged = nameof(OnChanged))]
 [DependencyProperty<ErrorCorrectionLevel>("ErrorCorrectionLevel", DefaultValue = ErrorCorrectionLevel.High, OnChanged = nameof(OnChanged))]
 [DependencyProperty<Renderer>("Renderer", DefaultValue = Renderer.ImageSharpPng, OnChanged = nameof(OnChanged))]
-[DependencyProperty<int>("PixelsPerModule", DefaultValue = 10, OnChanged = nameof(OnChanged))]
+[DependencyProperty<int>("PixelsPerModule", DefaultValue = 5, OnChanged = nameof(OnChanged))]
 [DependencyProperty<bool>("DrawQuietZones", DefaultValue = true, OnChanged = nameof(OnChanged))]
 [DependencyProperty<Color>("DarkColor", DefaultValueExpression = "Colors.Black", OnChanged = nameof(OnChanged))]
 [DependencyProperty<Color>("LightColor", DefaultValueExpression = "Colors.White", OnChanged = nameof(OnChanged))]
 [DependencyProperty<int>("IconSizePercent", DefaultValue = 15, OnChanged = nameof(OnChanged))]
-[DependencyProperty<int>("IconBorderWidth", DefaultValue = 6, OnChanged = nameof(OnChanged))]
-[DependencyProperty<Color>("IconBackgroundColor", OnChanged = nameof(OnChanged))]
+[DependencyProperty<int>("IconBorderWidth", DefaultValue = 0, OnChanged = nameof(OnChanged))]
+[DependencyProperty<Color>("IconBackgroundColor", DefaultValueExpression = "Colors.Transparent", OnChanged = nameof(OnChanged))]
+[DependencyProperty<BackgroundType>("BackgroundType", DefaultValue = BackgroundType.Circle, OnChanged = nameof(OnChanged))]
 [DependencyProperty<ImageSource>("LogoSource")]
 public partial class QrCodeSource : StreamImageSource
 {
@@ -74,6 +75,7 @@ public partial class QrCodeSource : StreamImageSource
                     icon: _logoImage,
                     iconSizePercent: IconSizePercent,
                     iconBorderWidth: IconBorderWidth,
+                    backgroundType: BackgroundType,
                     iconBackgroundColor: IconBackgroundColor?.ToImageSharpColor());
 
                 var bytes = await image.ToBytesAsync(

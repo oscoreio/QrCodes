@@ -1,5 +1,6 @@
 using SixLabors.ImageSharp;
 #if NET6_0_OR_GREATER
+using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
 #endif
 using SixLabors.ImageSharp.PixelFormats;
@@ -25,6 +26,7 @@ public static class ImageSharpRenderer
     /// <param name="iconSizePercent"></param>
     /// <param name="iconBorderWidth"></param>
     /// <param name="drawQuietZones"></param>
+    /// <param name="backgroundType"></param>
     /// <param name="iconBackgroundColor"></param>
     /// <returns></returns>
     public static Image<Rgba32> Render(
@@ -36,6 +38,7 @@ public static class ImageSharpRenderer
         Image? icon = null,
         int iconSizePercent = 15,
         int iconBorderWidth = 0,
+        BackgroundType backgroundType = BackgroundType.Circle,
         Color? iconBackgroundColor = null)
     {
         data = data ?? throw new ArgumentNullException(nameof(data));
@@ -57,35 +60,45 @@ public static class ImageSharpRenderer
                 y: (image.Height - iconDestHeight) / 2,
                 width: iconDestWidth,
                 height: iconDestHeight);
-
-            if (iconBorderWidth > 0)
+            
+            iconBackgroundColor ??= Color.Transparent;
+            if (iconBackgroundColor != Color.Transparent)
             {
-                iconBackgroundColor ??= Color.White;
-                if (iconBackgroundColor != Color.Transparent)
-                {
-                    var centerDest = iconDestRect;
-                    centerDest.Inflate(iconBorderWidth, iconBorderWidth);
-                    
+                var centerDest = iconDestRect;
+                centerDest.Inflate(iconBorderWidth, iconBorderWidth);
+                
 #if NET6_0_OR_GREATER
-                    image.Mutate(context =>
+                image.Mutate(context =>
+                {
+                    switch (backgroundType)
                     {
-                        context.Fill(iconBackgroundColor.Value, centerDest);
-                    });
+                        case BackgroundType.Circle:
+                            context.Fill(iconBackgroundColor.Value, new EllipsePolygon(
+                                x: image.Width / 2.0f,
+                                y: image.Height / 2.0f,
+                                radius: iconDestWidth / 2.0f + iconBorderWidth));
+                            break;
+                        case BackgroundType.Rectangle:
+                            context.Fill(iconBackgroundColor.Value, centerDest);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(backgroundType), backgroundType, null);
+                    }
+                });
 #else
-                    image.ProcessPixelRows(accessor =>
+                image.ProcessPixelRows(accessor =>
+                {
+                    for (int y = (int)centerDest.Top; y <= (int)centerDest.Bottom; y++)
                     {
-                        for (int y = (int)centerDest.Top; y <= (int)centerDest.Bottom; y++)
-                        {
-                            Span<Rgba32> pixelRow = accessor.GetRowSpan(y);
+                        Span<Rgba32> pixelRow = accessor.GetRowSpan(y);
 
-                            for (int x = (int)centerDest.Left; x <= (int)centerDest.Right; x++)
-                            {
-                                pixelRow[x] = iconBackgroundColor ?? lightColor ?? Color.White;
-                            }
+                        for (int x = (int)centerDest.Left; x <= (int)centerDest.Right; x++)
+                        {
+                            pixelRow[x] = iconBackgroundColor ?? lightColor ?? Color.White;
                         }
-                    });
+                    }
+                });
 #endif
-                }
             }
 
             image.Mutate(context =>

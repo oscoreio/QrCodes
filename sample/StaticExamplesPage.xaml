@@ -29,11 +29,21 @@
                 WidthRequest="200" />
         </VerticalStackLayout>
         <VerticalStackLayout Padding="30,0" Spacing="5">
-            <Label HorizontalTextAlignment="Center" Text="Logo:" />
+            <Label HorizontalTextAlignment="Center" Text="Logo without background:" />
             <Image
                 HeightRequest="200"
-                Source="{qr:QrCode 'Fixed value',
+                Source="{qr:QrCode 'Logo without background',
                                    LogoSource='apple_logo_black'}"
+                WidthRequest="200" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Padding="30,0" Spacing="5">
+            <Label HorizontalTextAlignment="Center" Text="Logo with background:" />
+            <Image
+                HeightRequest="200"
+                Source="{qr:QrCode 'Logo with background',
+                                   LogoSource='apple_logo_black',
+                                   IconBackgroundColor=White,
+                                   IconBorderWidth=6}"
                 WidthRequest="200" />
         </VerticalStackLayout>
     </FlexLayout>
