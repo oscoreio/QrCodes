@@ -19,11 +19,29 @@ public static class ImageSourceExtensions
         }
 
         var result = await imageSource.GetPlatformImageAsync(mauiContext).ConfigureAwait(false);
+        var value = result?.Value ?? throw new InvalidOperationException("Result value is null");
 #if IOS || MACCATALYST
-        return result?.Value.AsPNG()?.AsStream() ??
-               throw new InvalidOperationException("Result is null");
+        return value.AsPNG()?.AsStream() ??
+               throw new InvalidOperationException("AsPNG() returns null");
+#elif ANDROID
+        var bitmap = Android.Graphics.Bitmap.CreateBitmap(
+            width: value.IntrinsicWidth,
+            height: value.IntrinsicHeight,
+            config: Android.Graphics.Bitmap.Config.Argb8888!);
+        value.Draw(new Android.Graphics.Canvas(bitmap));
+        
+        var stream = new MemoryStream();
+        
+        await bitmap.CompressAsync(
+            format: Android.Graphics.Bitmap.CompressFormat.Png!,
+            quality: 100,
+            stream: stream).ConfigureAwait(false);
+        
+        return stream;
+#elif WINDOWS
+        throw new PlatformNotSupportedException();
 #else
-        throw new NotImplementedException();
+        throw new PlatformNotSupportedException();
 #endif
     }
 }
