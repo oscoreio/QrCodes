@@ -2,17 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>net4.6.2;netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <LangVersion>preview</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <NoWarn>$(NoWarn);CA1845;CA1847;CA1308;CA1724;CA1054;CA1055;CA1034;CA1814;CA1305;CA1307;CA1865;CA1846;CA1863;CA1056;CA1008;CA1031</NoWarn>
     <RootNamespace>QrCodes</RootNamespace>
   </PropertyGroup>
   
   <PropertyGroup Label="NuGet">
     <PackageId>Oscore.$(AssemblyName)</PackageId>
-    <Description>Modern cross-platform QR code generation, rendering and serialization.</Description>
-    <PackageTags>qr;qrcode;qrcoder;cross-platform;logo;imagesharp;net8</PackageTags>
+    <PackageTags>$(PackageTags);imagesharp</PackageTags>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'net4.6.2' ">

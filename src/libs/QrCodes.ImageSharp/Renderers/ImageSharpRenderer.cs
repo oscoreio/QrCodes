@@ -1,3 +1,4 @@
+using QrCodes.Renderers.Abstractions;
 using SixLabors.ImageSharp;
 #if NET6_0_OR_GREATER
 using SixLabors.ImageSharp.Drawing;
@@ -13,47 +14,37 @@ namespace QrCodes.Renderers;
 /// <summary>
 /// 
 /// </summary>
-public static class ImageSharpRenderer
+public class ImageSharpRenderer : IRenderer
 {
     /// <summary>
     /// 
     /// </summary>
     /// <param name="data"></param>
-    /// <param name="pixelsPerModule"></param>
-    /// <param name="darkColor"></param>
-    /// <param name="lightColor"></param>
-    /// <param name="icon"></param>
-    /// <param name="iconSizePercent"></param>
-    /// <param name="iconBorderWidth"></param>
-    /// <param name="drawQuietZones"></param>
-    /// <param name="backgroundType"></param>
-    /// <param name="iconBackgroundColor"></param>
+    /// <param name="settings"></param>
     /// <returns></returns>
     public static Image<Rgba32> Render(
         QrCode data,
-        int pixelsPerModule = 5,
-        Color? darkColor = null,
-        Color? lightColor = null,
-        bool drawQuietZones = true,
-        Image? icon = null,
-        int iconSizePercent = 15,
-        int iconBorderWidth = 0,
-        BackgroundType backgroundType = BackgroundType.Circle,
-        Color? iconBackgroundColor = null)
+        RendererSettings? settings = null)
     {
         data = data ?? throw new ArgumentNullException(nameof(data));
-        darkColor ??= Color.Black;
-        lightColor ??= Color.White;
+        settings ??= new RendererSettings();
         
-        int moduleOffset = drawQuietZones ? 0 : 4;
-        int size = (data.ModuleMatrix.Count - moduleOffset * 2) * pixelsPerModule;
+        int moduleOffset = settings.DrawQuietZones ? 0 : 4;
+        int size = (data.ModuleMatrix.Count - moduleOffset * 2) * settings.PixelsPerModule;
 
         var image = new Image<Rgba32>(size, size);
-        DrawQrCode(data, image, pixelsPerModule, moduleOffset, darkColor.Value, lightColor.Value);
+        DrawQrCode(
+            data,
+            image,
+            settings.PixelsPerModule,
+            moduleOffset,
+            settings.DarkColor.ToImageSharpColor(),
+            settings.LightColor.ToImageSharpColor());
         
-        if (icon != null && iconSizePercent is > 0 and <= 100)
+        if (settings is { IconBytes: not null, IconSizePercent: > 0 and <= 100 })
         {
-            float iconDestWidth = iconSizePercent * image.Width / 100f;
+            using var icon = Image.Load(settings.IconBytes);
+            float iconDestWidth = settings.IconSizePercent * image.Width / 100f;
             float iconDestHeight = iconDestWidth * icon.Height / icon.Width;
             var iconDestRect = new RectangleF(
                 x: (image.Width - iconDestWidth) / 2,
@@ -61,28 +52,31 @@ public static class ImageSharpRenderer
                 width: iconDestWidth,
                 height: iconDestHeight);
             
-            iconBackgroundColor ??= Color.Transparent;
-            if (iconBackgroundColor != Color.Transparent)
+            if (settings.IconBackgroundColor != System.Drawing.Color.Transparent)
             {
                 var centerDest = iconDestRect;
-                centerDest.Inflate(iconBorderWidth, iconBorderWidth);
+                centerDest.Inflate(settings.IconBorderWidth, settings.IconBorderWidth);
                 
 #if NET6_0_OR_GREATER
                 image.Mutate(context =>
                 {
-                    switch (backgroundType)
+                    switch (settings.BackgroundType)
                     {
                         case BackgroundType.Circle:
-                            context.Fill(iconBackgroundColor.Value, new EllipsePolygon(
-                                x: image.Width / 2.0f,
-                                y: image.Height / 2.0f,
-                                radius: iconDestWidth / 2.0f + iconBorderWidth));
+                            context.Fill(
+                                color: settings.IconBackgroundColor.ToImageSharpColor(), 
+                                path: new EllipsePolygon(
+                                    x: image.Width / 2.0f,
+                                    y: image.Height / 2.0f,
+                                    radius: iconDestWidth / 2.0f + settings.IconBorderWidth));
                             break;
                         case BackgroundType.Rectangle:
-                            context.Fill(iconBackgroundColor.Value, centerDest);
+                            context.Fill(
+                                color: settings.IconBackgroundColor.ToImageSharpColor(),
+                                shape: centerDest);
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(nameof(backgroundType), backgroundType, null);
+                            throw new ArgumentOutOfRangeException(nameof(settings), settings.BackgroundType, null);
                     }
                 });
 #else
@@ -94,7 +88,7 @@ public static class ImageSharpRenderer
 
                         for (int x = (int)centerDest.Left; x <= (int)centerDest.Right; x++)
                         {
-                            pixelRow[x] = iconBackgroundColor ?? lightColor ?? Color.White;
+                            pixelRow[x] = settings.IconBackgroundColor.ToImageSharpColor();
                         }
                     }
                 });
@@ -103,6 +97,7 @@ public static class ImageSharpRenderer
 
             image.Mutate(context =>
             {
+                // ReSharper disable once AccessToDisposedClosure
                 using var sizedIcon = icon.Clone(x =>
                 {
                     x.Resize((int)iconDestWidth, (int)iconDestHeight);
@@ -218,4 +213,37 @@ public static class ImageSharpRenderer
         return roundedRect;
     }
     */
+    
+    /// <inheritdoc />
+    public byte[] RenderToBytes(
+        QrCode data,
+        RendererSettings? settings = null)
+    {
+        settings ??= new RendererSettings();
+        
+        using var image = Render(data: data, settings: settings);
+        
+        return image.ToBytes(
+            fileFormat: settings.FileFormat,
+            quality: settings.Quality);
+    }
+
+    /// <inheritdoc />
+    public Stream RenderToStream(
+        QrCode data,
+        RendererSettings? settings = null)
+    {
+        settings ??= new RendererSettings();
+        
+        using var image = Render(data: data, settings: settings);
+        
+        var stream = new MemoryStream();
+        image.ToStream(
+            stream: stream,
+            fileFormat: settings.FileFormat,
+            quality: settings.Quality);
+        stream.Position = 0;
+        
+        return stream;
+    }
 }

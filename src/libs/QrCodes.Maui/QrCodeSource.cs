@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using DependencyPropertyGenerator;
 using QrCodes.Renderers;
+using QrCodes.Renderers.Abstractions;
 
 namespace QrCodes.Maui;
 
@@ -10,7 +11,9 @@ namespace QrCodes.Maui;
 /// </summary>
 [DependencyProperty<string>("Value", OnChanged = nameof(OnChanged))]
 [DependencyProperty<ErrorCorrectionLevel>("ErrorCorrectionLevel", DefaultValue = ErrorCorrectionLevel.High, OnChanged = nameof(OnChanged))]
-[DependencyProperty<Renderer>("Renderer", DefaultValue = Renderer.ImageSharpPng, OnChanged = nameof(OnChanged))]
+[DependencyProperty<Renderer>("Renderer", DefaultValue = Renderer.SkiaSharp, OnChanged = nameof(OnChanged))]
+[DependencyProperty<FileFormat>("FileFormat", DefaultValue = FileFormat.Png, OnChanged = nameof(OnChanged))]
+[DependencyProperty<int>("Quality", DefaultValue = 100, OnChanged = nameof(OnChanged))]
 [DependencyProperty<int>("PixelsPerModule", DefaultValue = 5, OnChanged = nameof(OnChanged))]
 [DependencyProperty<bool>("DrawQuietZones", DefaultValue = true, OnChanged = nameof(OnChanged))]
 [DependencyProperty<Color>("DarkColor", DefaultValueExpression = "Colors.Black", OnChanged = nameof(OnChanged))]
@@ -22,7 +25,7 @@ namespace QrCodes.Maui;
 [DependencyProperty<ImageSource>("LogoSource")]
 public partial class QrCodeSource : StreamImageSource
 {
-    private SixLabors.ImageSharp.Image? _logoImage;
+    private byte[]? _logoBytes;
     
     private void OnChanged()
     {
@@ -33,13 +36,9 @@ public partial class QrCodeSource : StreamImageSource
     {
         try
         {
-            await using var stream = newValue is null
+            _logoBytes = newValue is null
                 ? null
-                : await newValue.ToStreamAsync();
-            _logoImage?.Dispose();
-            _logoImage = stream is null
-                ? null
-                : await SixLabors.ImageSharp.Image.LoadAsync(stream);
+                : await newValue.ToBytesAsync();
             
             OnSourceChanged();
         }
@@ -49,68 +48,34 @@ public partial class QrCodeSource : StreamImageSource
         }
     }
 
-    private async Task<Stream> RenderAsync(CancellationToken cancellationToken = default)
+    private Task<Stream> RenderAsync(CancellationToken cancellationToken = default)
     {
-        var qrCode = QrCodeGenerator.Generate(
-            Value ?? string.Empty,
-            ErrorCorrectionLevel);
-        
-        switch (Renderer)
+        var renderer = Renderer switch
         {
-            case Renderer.ImageSharpGif:
-            case Renderer.ImageSharpBmp:
-            case Renderer.ImageSharpJpeg:
-            case Renderer.ImageSharpPbm:
-            case Renderer.ImageSharpPng:
-            case Renderer.ImageSharpTga:
-            case Renderer.ImageSharpTiff:
-            case Renderer.ImageSharpWebp:
+            Renderer.SkiaSharp => (IRenderer)new SkiaSharpRenderer(),
+            Renderer.FastPng => new FastPngRenderer(),
+            _ => throw new NotImplementedException()
+        };
+        var stream = renderer.RenderToStream(
+            data: QrCodeGenerator.Generate(
+                Value ?? string.Empty,
+                ErrorCorrectionLevel),
+            new RendererSettings
             {
-                using var image = ImageSharpRenderer.Render(
-                    qrCode,
-                    pixelsPerModule: PixelsPerModule,
-                    drawQuietZones: DrawQuietZones,
-                    darkColor: DarkColor?.ToImageSharpColor(),
-                    lightColor: LightColor?.ToImageSharpColor(),
-                    icon: _logoImage,
-                    iconSizePercent: IconSizePercent,
-                    iconBorderWidth: IconBorderWidth,
-                    backgroundType: BackgroundType,
-                    iconBackgroundColor: IconBackgroundColor?.ToImageSharpColor());
+                PixelsPerModule = PixelsPerModule,
+                DrawQuietZones = DrawQuietZones,
+                DarkColor = (DarkColor ?? Colors.Black).ToSystemDrawingColor(),
+                LightColor = (LightColor ?? Colors.White).ToSystemDrawingColor(),
+                IconBytes = _logoBytes,
+                IconSizePercent = IconSizePercent,
+                IconBorderWidth = IconBorderWidth,
+                BackgroundType = BackgroundType,
+                IconBackgroundColor = (IconBackgroundColor ?? Colors.Transparent).ToSystemDrawingColor(),
+                FileFormat = FileFormat,
+                Quality = Quality,
+            });
 
-                var bytes = await image.ToBytesAsync(
-                    fileFormat: Renderer switch
-                    {
-                        Renderer.ImageSharpGif => FileFormat.Gif,
-                        Renderer.ImageSharpBmp => FileFormat.Bmp,
-                        Renderer.ImageSharpJpeg => FileFormat.Jpeg,
-                        Renderer.ImageSharpPbm => FileFormat.Pbm,
-                        Renderer.ImageSharpPng => FileFormat.Png,
-                        Renderer.ImageSharpTga => FileFormat.Tga,
-                        Renderer.ImageSharpTiff => FileFormat.Tiff,
-                        Renderer.ImageSharpWebp => FileFormat.Webp,
-                        _ => FileFormat.Png,
-                    },
-                    cancellationToken: cancellationToken).ConfigureAwait(false);
-
-                return new MemoryStream(bytes);
-            }
-
-            case Renderer.FastPng:
-            {
-                var bytes = FastPngRenderer.Render(
-                    qrCode,
-                    pixelsPerModule: PixelsPerModule,
-                    drawQuietZones: DrawQuietZones);
-
-                return new MemoryStream(bytes);
-            }
-            
-            default:
-            {
-                throw new NotImplementedException();
-            }
-        }
+        return Task.FromResult(stream);
     }
     
     /// <summary>

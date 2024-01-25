@@ -1,4 +1,5 @@
 using QrCodes.Renderers;
+using QrCodes.Renderers.Abstractions;
 using QrCodes.Tests.Helpers;
 using SixLabors.ImageSharp;
 using Xunit;
@@ -11,8 +12,11 @@ public partial class ImageSharpRendererTests
     public void can_create_qrcode_with_transparent_logo_graphic()
     {
         var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 10, Color.Black, Color.Transparent,
-            icon: Image.Load(H.Resources.noun_software_engineer_2909346_png.AsStream()));
+        var image = ImageSharpRenderer.Render(data, new RendererSettings
+        {
+            PixelsPerModule = 10,
+            IconBytes = H.Resources.noun_software_engineer_2909346_png.AsBytes(),
+        });
 
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_with_transparent_logo_graphic), image);
         HelperFunctions.TestByDecode(image, QrCodeContent);
@@ -23,8 +27,12 @@ public partial class ImageSharpRendererTests
     public void can_create_qrcode_with_non_transparent_logo_graphic()
     {
         var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 10, Color.Black, Color.White,
-            icon: Image.Load(H.Resources.noun_software_engineer_2909346_png.AsStream()));
+        var image = ImageSharpRenderer.Render(data, new RendererSettings
+        {
+            PixelsPerModule = 10,
+            IconBytes = H.Resources.noun_software_engineer_2909346_png.AsBytes(),
+            IconBackgroundColor = System.Drawing.Color.White,
+        });
 
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_with_non_transparent_logo_graphic),
             image);
@@ -36,8 +44,12 @@ public partial class ImageSharpRendererTests
     public void can_create_qrcode_with_logo_and_with_transparent_border()
     {
         var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 10, Color.Black, Color.Transparent, iconBorderWidth: 6,
-            icon: Image.Load(H.Resources.noun_software_engineer_2909346_png.AsStream()));
+        var image = ImageSharpRenderer.Render(data, new RendererSettings
+        {
+            PixelsPerModule = 10,
+            IconBytes = H.Resources.noun_software_engineer_2909346_png.AsBytes(),
+            IconBorderWidth = 6,
+        });
 
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_with_logo_and_with_transparent_border),
             image);
@@ -49,8 +61,13 @@ public partial class ImageSharpRendererTests
     public void can_create_qrcode_with_logo_and_with_standard_border()
     {
         var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 10, Color.Black, Color.White, iconBorderWidth: 6,
-            icon: Image.Load(H.Resources.noun_software_engineer_2909346_png.AsStream()));
+        var image = ImageSharpRenderer.Render(data, new RendererSettings
+        {
+            PixelsPerModule = 10,
+            IconBytes = H.Resources.noun_software_engineer_2909346_png.AsBytes(),
+            IconBorderWidth = 6,
+            IconBackgroundColor = System.Drawing.Color.White,
+        });
 
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_with_logo_and_with_standard_border),
             image);
@@ -62,9 +79,14 @@ public partial class ImageSharpRendererTests
     public void can_create_qrcode_with_logo_and_with_custom_border()
     {
         var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 10, Color.Black, Color.Transparent, iconBorderWidth: 6,
-            iconBackgroundColor: Color.DarkGreen,
-            icon: Image.Load(H.Resources.noun_software_engineer_2909346_png.AsStream()));
+        var image = ImageSharpRenderer.Render(data, new RendererSettings
+        {
+            PixelsPerModule = 10,
+            IconBytes = H.Resources.noun_software_engineer_2909346_png.AsBytes(),
+            IconBorderWidth = 6,
+            BackgroundType = BackgroundType.Rectangle,
+            IconBackgroundColor = System.Drawing.Color.DarkGreen,
+        });
 
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_with_logo_and_with_custom_border),
             image);

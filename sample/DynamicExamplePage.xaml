@@ -2,40 +2,74 @@
 <ContentPage
     x:Class="QrCodes.SampleApp.DynamicExamplePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:qr="clr-namespace:QrCodes.Maui;assembly=QrCodes.Maui"
     xmlns:qrCodes="clr-namespace:QrCodes;assembly=QrCodes"
-    xmlns:renderers="clr-namespace:QrCodes.Renderers;assembly=QrCodes.ImageSharp"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:renderers="clr-namespace:QrCodes.Renderers;assembly=QrCodes">
 
     <ScrollView>
-        <VerticalStackLayout Padding="30,0" Spacing="25">
-            <Label HorizontalTextAlignment="Center" Text="Value:" />
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="Value:" />
             <Entry
+                x:Name="ValueEntry"
                 HorizontalTextAlignment="Center"
                 Placeholder="Value:"
-                Text="Hello, World!"
-                x:Name="ValueEntry" />
-            <Label HorizontalTextAlignment="Center" Text="ErrorCorrectionLevel:" />
+                Text="Hello, World!" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="ErrorCorrectionLevel:" />
             <Picker
+                x:Name="ErrorCorrectionLevelPicker"
                 ItemsSource="{qr:Enum Type={x:Type qrCodes:ErrorCorrectionLevel}}"
-                SelectedItem="{x:Static qrCodes:ErrorCorrectionLevel.High}"
-                x:Name="ErrorCorrectionLevelPicker" />
-            <Label HorizontalTextAlignment="Center" Text="Renderer:" />
+                SelectedItem="{x:Static qrCodes:ErrorCorrectionLevel.High}" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="Renderer:" />
             <Picker
+                x:Name="RendererPicker"
                 ItemsSource="{qr:Enum Type={x:Type qr:Renderer}}"
-                SelectedItem="{x:Static qr:Renderer.ImageSharpPng}"
-                x:Name="RendererPicker" />
-            <Label HorizontalTextAlignment="Center" Text="{Binding Value, Source={x:Reference PixelsPerModuleSlider}, StringFormat='PixelsPerModule: {0}'}" />
+                SelectedItem="{x:Static qr:Renderer.SkiaSharp}" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="File Format:" />
+            <Picker
+                x:Name="FileFormatPicker"
+                ItemsSource="{qr:Enum Type={x:Type renderers:FileFormat}}"
+                SelectedItem="{x:Static renderers:FileFormat.Png}" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="{Binding Value, Source={x:Reference QualitySlider}, StringFormat='Quality: {0}'}" />
             <Slider
+                x:Name="QualitySlider"
+                HorizontalOptions="Center"
+                Maximum="100"
+                Minimum="0"
+                Value="100" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="{Binding Value, Source={x:Reference PixelsPerModuleSlider}, StringFormat='PixelsPerModule: {0}'}" />
+            <Slider
+                x:Name="PixelsPerModuleSlider"
                 HorizontalOptions="Center"
                 Maximum="50"
                 Minimum="1"
-                Value="20"
-                x:Name="PixelsPerModuleSlider" />
-            <Label HorizontalTextAlignment="Center" Text="DrawQuietZones:" />
-            <CheckBox IsChecked="True" x:Name="DrawQuietZonesCheckBox" />
-            <Label HorizontalTextAlignment="Center" Text="Logo:" />
-            <Picker SelectedItem="{x:Null}" x:Name="LogoPicker">
+                Value="20" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="DrawQuietZones:" />
+            <CheckBox
+                x:Name="DrawQuietZonesCheckBox"
+                IsChecked="True" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="Logo:" />
+            <Picker
+                x:Name="LogoPicker"
+                SelectedItem="{x:Null}">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type ImageSource}">
                         <x:Null />
@@ -43,8 +77,12 @@
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
-            <Label HorizontalTextAlignment="Center" Text="DarkColor:" />
-            <Picker SelectedItem="{x:Static Colors.Black}" x:Name="DarkColorPicker">
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="DarkColor:" />
+            <Picker
+                x:Name="DarkColorPicker"
+                SelectedItem="{x:Static Colors.Black}">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type Color}">
                         <x:Static Member="Colors.Black" />
@@ -56,8 +94,12 @@
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
-            <Label HorizontalTextAlignment="Center" Text="LightColor:" />
-            <Picker SelectedItem="{x:Static Colors.White}" x:Name="LightColorPicker">
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="LightColor:" />
+            <Picker
+                x:Name="LightColorPicker"
+                SelectedItem="{x:Static Colors.White}">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type Color}">
                         <x:Static Member="Colors.White" />
@@ -69,8 +111,12 @@
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
-            <Label HorizontalTextAlignment="Center" Text="IconBackgroundColor:" />
-            <Picker SelectedItem="{x:Static Colors.Transparent}" x:Name="IconBackgroundColorPicker">
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="IconBackgroundColor:" />
+            <Picker
+                x:Name="IconBackgroundColorPicker"
+                SelectedItem="{x:Static Colors.Transparent}">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type Color}">
                         <x:Static Member="Colors.Transparent" />
@@ -83,25 +129,31 @@
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
-            <Label HorizontalTextAlignment="Center" Text="BackgroundType:" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="BackgroundType:" />
             <Picker
+                x:Name="BackgroundTypePicker"
                 ItemsSource="{qr:Enum Type={x:Type renderers:BackgroundType}}"
-                SelectedItem="{x:Static renderers:BackgroundType.Circle}"
-                x:Name="BackgroundTypePicker" />
-            <Label HorizontalTextAlignment="Center" Text="{Binding Value, Source={x:Reference IconSizePercentSlider}, StringFormat='IconSizePercent: {0}'}" />
+                SelectedItem="{x:Static renderers:BackgroundType.Circle}" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="{Binding Value, Source={x:Reference IconSizePercentSlider}, StringFormat='IconSizePercent: {0}'}" />
             <Slider
+                x:Name="IconSizePercentSlider"
                 HorizontalOptions="Center"
                 Maximum="100"
                 Minimum="0"
-                Value="15"
-                x:Name="IconSizePercentSlider" />
-            <Label HorizontalTextAlignment="Center" Text="{Binding Value, Source={x:Reference IconBorderWidthSlider}, StringFormat='IconBorderWidth: {0}'}" />
+                Value="15" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Text="{Binding Value, Source={x:Reference IconBorderWidthSlider}, StringFormat='IconBorderWidth: {0}'}" />
             <Slider
+                x:Name="IconBorderWidthSlider"
                 HorizontalOptions="Center"
                 Maximum="20"
                 Minimum="0"
-                Value="6"
-                x:Name="IconBorderWidthSlider" />
+                Value="6" />
             <Image
                 HeightRequest="400"
                 Source="{qr:QrCode Value={Binding Text,
@@ -110,6 +162,10 @@
                                                                  Source={x:Reference ErrorCorrectionLevelPicker}},
                                    Renderer={Binding SelectedItem,
                                                      Source={x:Reference RendererPicker}},
+                                   FileFormat={Binding SelectedItem,
+                                                       Source={x:Reference FileFormatPicker}},
+                                   Quality={Binding Value,
+                                                    Source={x:Reference QualitySlider}},
                                    PixelsPerModule={Binding Value,
                                                             Source={x:Reference PixelsPerModuleSlider}},
                                    DarkColor={Binding SelectedItem,

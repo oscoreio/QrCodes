@@ -1,38 +1,49 @@
 ﻿using System.Globalization;
+using QrCodes.Renderers.Abstractions;
 
-/* This renderer is inspired by RemusVasii: https://github.com/codebude/QRCoder/issues/223 */
-namespace QrCodes.Renderers;
+namespace QrCodes.Renderers.Extensions;
 
 /// <summary>
 /// 
 /// </summary>
-// ReSharper disable once InconsistentNaming
-public static class PdfRenderer
+public static class PdfExtensions
 {
     private static readonly byte[] PdfBinaryComment = [0x25, 0xe2, 0xe3, 0xcf, 0xd3];
-
+    
     /// <summary>
     /// Creates a PDF document with given colors DPI and quality
     /// </summary>
-    /// <param name="jpgArray"></param>
-    /// <param name="stream"></param>
-    /// <param name="imageWidthAndHeight"></param>
+    /// <param name="renderer"></param>
+    /// <param name="data"></param>
+    /// <param name="fileFormat"></param>
+    /// <param name="quality"></param>
     /// <param name="dpi"></param>
+    /// <param name="settings"></param>
     /// <returns></returns>
-    public static void SaveAsPdf(
-        this byte[] jpgArray,
-        Stream stream,
-        int imageWidthAndHeight,
-        int dpi = 150)
+    public static byte[] RenderToPdf(
+        this IRenderer renderer,
+        QrCode data,
+        int dpi = 150,
+        FileFormat fileFormat = FileFormat.Jpeg,
+        int quality = 85,
+        RendererSettings? settings = null)
     {
-        jpgArray = jpgArray ?? throw new ArgumentNullException(nameof(jpgArray));
-        stream = stream ?? throw new ArgumentNullException(nameof(stream));
+        renderer = renderer ?? throw new ArgumentNullException(nameof(renderer));
+        data = data ?? throw new ArgumentNullException(nameof(data));
+        settings ??= new RendererSettings();
+        settings.FileFormat = fileFormat;
+        settings.Quality = quality;
+        
+        var bytes = renderer.RenderToBytes(data, settings);
+        
+        var imageWidthAndHeight = data.ModuleMatrix.Count * settings.PixelsPerModule;
         
         //var imageWidthAndHeight = data.ModuleMatrix.Count * pixelsPerModule;
         var pdfMediaSize = (imageWidthAndHeight * 72 / dpi)
             .ToString(CultureInfo.InvariantCulture);
             
         //Create PDF document
+        using var stream = new MemoryStream();
         using var writer = new StreamWriter(stream, System.Text.Encoding.GetEncoding("ASCII"));
         var xrefs = new List<long>();
 
@@ -73,7 +84,7 @@ public static class PdfRenderer
             "endobj\r\n"
         );
 
-        var X = "q\r\n" +
+        var x = "q\r\n" +
                 pdfMediaSize + " 0 0 " + pdfMediaSize + " 0 0 cm\r\n" +
                 "/Im1 Do\r\n" +
                 "Q";
@@ -83,9 +94,9 @@ public static class PdfRenderer
 
         writer.Write(
             xrefs.Count + " 0 obj\r\n" +
-            "<< /Length " + X.Length + " >>\r\n" +
+            "<< /Length " + x.Length + " >>\r\n" +
             "stream\r\n" +
-            X + "endstream\r\n" +
+            x + "endstream\r\n" +
             "endobj\r\n"
         );
 
@@ -106,7 +117,7 @@ public static class PdfRenderer
             "stream\r\n"
         );
         writer.Flush();
-        stream.Write(jpgArray, 0, jpgArray.Length);
+        stream.Write(bytes, 0, bytes.Length);
         writer.Write(
             "\r\n" +
             "endstream\r\n" +
@@ -118,7 +129,7 @@ public static class PdfRenderer
 
         writer.Write(
             xrefs.Count + " 0 obj\r\n" +
-            jpgArray.Length + " endobj\r\n"
+            bytes.Length + " endobj\r\n"
         );
 
         writer.Flush();
@@ -145,5 +156,7 @@ public static class PdfRenderer
         );
 
         writer.Flush();
+        
+        return stream.ToArray();
     }
 }

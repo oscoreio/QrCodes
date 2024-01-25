@@ -1,11 +1,12 @@
 ﻿using System.IO.Compression;
+using QrCodes.Renderers.Abstractions;
 
 namespace QrCodes.Renderers;
 
 /// <summary>
 /// 
 /// </summary>
-public static class FastPngRenderer
+public class FastPngRenderer : IRenderer
 {
     /// <summary>
     /// Creates a black and white PNG of the QR code, using 1-bit grayscale.
@@ -26,7 +27,8 @@ public static class FastPngRenderer
     }
 
     /// <summary>
-    /// Creates 2-color PNG of the QR code, using 1-bit indexed color. Accepts 3-byte RGB colors for normal images and 4-byte RGBA-colors for transparent images.
+    /// Creates 2-color PNG of the QR code, using 1-bit indexed color.
+    /// Accepts 3-byte RGB colors for normal images and 4-byte RGBA-colors for transparent images.
     /// </summary>
     public static byte[] Render(
         QrCode data,
@@ -312,5 +314,26 @@ public static class FastPngRenderer
 
             return c ^ 0xffffffff;
         }
+    }
+
+    /// <inheritdoc />
+    public byte[] RenderToBytes(
+        QrCode data,
+        RendererSettings? settings = null)
+    {
+        settings ??= new RendererSettings();
+        
+        return Render(
+            data,
+            pixelsPerModule: settings.PixelsPerModule,
+            drawQuietZones: settings.DrawQuietZones);
+    }
+
+    /// <inheritdoc />
+    public Stream RenderToStream(
+        QrCode data,
+        RendererSettings? settings = null)
+    {
+        return new MemoryStream(RenderToBytes(data, settings));
     }
 }

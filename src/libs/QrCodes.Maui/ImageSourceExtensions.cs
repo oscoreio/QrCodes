@@ -44,4 +44,21 @@ public static class ImageSourceExtensions
         throw new PlatformNotSupportedException();
 #endif
     }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="imageSource"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static async Task<byte[]> ToBytesAsync(this ImageSource imageSource)
+    {
+#pragma warning disable CA2007
+        await using var stream = await imageSource.ToStreamAsync().ConfigureAwait(false);
+#pragma warning restore CA2007
+        using var memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
+        
+        return memoryStream.ToArray();
+    }
 }

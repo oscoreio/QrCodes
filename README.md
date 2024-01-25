@@ -1,10 +1,9 @@
 # QrCodes
 Modern and efficient cross-platform QR code generation, rendering and serialization. 
 It contains various payloads and framework helpers for MAUI.  
-Based on QRCoder with ImageSharp support.  
 
 ### 🔥 Features 🔥
-- Use ImageSharp instead of System.Drawing to be cross-platform.
+- Use SkiaSharp/ImageSharp instead of System.Drawing to be cross-platform.
 - Support latest dotnet versions.
 - Generate QR code with logo image.
 - Supports next payloads
@@ -37,6 +36,7 @@ Based on QRCoder with ImageSharp support.
   - FastPngRenderer - fast but not support all features
   - Bitmap(.bmp) - fast but not support all features
   - ImageSharp - powerful, allows many features and export formats
+  - SkiaSharp - powerful, allows many features and export formats
   - PDF - powered by ImageSharp
 - Supports helpers for MAUI
   - QrCodeSource - ImageSource to produce QR code
@@ -46,9 +46,11 @@ Based on QRCoder with ImageSharp support.
 ```
 // Base library with all payloads and some renderers(Ascii, Base64, Bitmap, PNG, SVG, PostScript)
 dotnet add package QrCodes
-// ImageSharpRenderer(Gif, Jpeg, Png, Tiff, WebP, Bmp, Pbm, Tga), Export to PDF
+// ImageSharpRenderer(Gif, Jpeg, Png, WebP, Bmp, Pbm, Tga, Tiff), Export to PDF
 dotnet add package QrCodes.ImageSharp
-// MAUI helpers(QrCodeSource and QrCodeExtension markup extension)
+// SkiaSharpRenderer(Gif, Jpeg, Png, WebP, Bmp, Ico, Wbmp, Pkm, Ktx, Astc, Dng, Heif, Avif), Export to PDF
+dotnet add package QrCodes.ImageSharp
+// MAUI helpers(QrCodeSource and QrCodeExtension markup extension). Uses SkiaSharpRenderer.
 dotnet add package QrCodes.Maui
 ```
 
@@ -57,12 +59,13 @@ dotnet add package QrCodes.Maui
 var qrCode = QrCodeGenerator.Generate(
     plainText: new Telegram(user: "havendv").ToString(),
     eccLevel: ErrorCorrectionLevel.High);
-var image = ImageSharpRenderer.Render(
+using var image = SkiaSharpRenderer.Render(
     data: qrCode,
     pixelsPerModule: 5,
     darkColor: Color.Black,
     lightColor: Color.White,
     drawQuietZones: false);
+var bytes = image.ToBytes(FileFormat.Png);
 ```
 
 #### Generate ImageSource for MAUI
@@ -98,12 +101,20 @@ Apple M1 Pro, 1 CPU, 10 logical and 10 physical cores
 Categories=Renderers  
 
 ```
-| Method                 | Mean      | Ratio | Gen0     | Gen1     | Gen2    | Allocated | Alloc Ratio |
-|----------------------- |----------:|------:|---------:|---------:|--------:|----------:|------------:|
-| ImageSharpRenderer_Png | 410.57 μs |  1.00 |   1.9531 |   0.4883 |       - |  47.93 KB |        1.00 |
-| PngRenderer_           |  43.58 μs |  0.11 |   0.8545 |        - |       - |   5.39 KB |        0.11 |
-| BitmapRenderer_        | 381.96 μs |  0.93 | 220.2148 | 220.2148 | 36.6211 | 368.75 KB |        7.69 |
-| SvgRenderer_           |  41.01 μs |  0.10 |   8.9111 |   0.3662 |       - |  54.95 KB |        1.15 |
+| Method                  | Mean        | Ratio | Gen0     | Gen1     | Gen2    | Allocated | Alloc Ratio |
+|------------------------ |------------:|------:|---------:|---------:|--------:|----------:|------------:|
+| SkiaSharpRenderer_Png   | 1,065.14 μs |  1.00 |        - |        - |       - |   1.52 KB |        1.00 |
+| SkiaSharpRenderer_Jpeg  |   331.18 μs |  0.31 |   1.9531 |        - |       - |  13.23 KB |        8.72 |
+| SkiaSharpRenderer_Bmp   |          NA |     ? |       NA |       NA |      NA |        NA |           ? |
+| ImageSharpRenderer_Png  |   417.70 μs |  0.40 |   1.9531 |   0.4883 |       - |   48.1 KB |       31.71 |
+| ImageSharpRenderer_Jpeg |   297.34 μs |  0.28 |   9.7656 |   1.4648 |  0.4883 |  57.02 KB |       37.60 |
+| ImageSharpRenderer_Bmp  |    67.90 μs |  0.06 |  79.2236 |  44.5557 | 43.3350 | 363.08 KB |      239.40 |
+| FastPngRenderer_        |    43.58 μs |  0.04 |   0.8545 |        - |       - |   5.39 KB |        3.56 |
+| BitmapRenderer_         |   519.42 μs |  0.49 | 219.7266 | 219.7266 | 36.1328 | 368.75 KB |      243.15 |
+| SvgRenderer_            |    41.03 μs |  0.04 |   8.9111 |        - |       - |  54.95 KB |       36.23 |
+
+Benchmarks with issues:
+  Benchmarks.SkiaSharpRenderer_Bmp: DefaultJob
 
 <!--BENCHMARKS_END-->
 

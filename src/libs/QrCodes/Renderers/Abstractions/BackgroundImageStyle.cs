@@ -1,4 +1,4 @@
-namespace QrCodes.Renderers.Art;
+namespace QrCodes.Renderers.Abstractions;
 
 /// <summary>
 /// Defines how the background image (if set) shall be rendered.
@@ -8,10 +8,20 @@ public enum BackgroundImageStyle
     /// <summary>
     /// 
     /// </summary>
+    None,
+    
+    /// <summary>
+    /// 
+    /// </summary>
     Fill,
         
     /// <summary>
     /// 
     /// </summary>
-    DataAreaOnly
+    DataAreaOnly,
+    
+    /// <summary>
+    ///
+    /// </summary>
+    Logo,
 }

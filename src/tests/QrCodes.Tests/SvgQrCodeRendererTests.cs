@@ -35,7 +35,7 @@ public class SvgQrCodeRendererTests
     public void can_render_svg_qrcode_viewbox_mode()
     {
         var data = QrCodeGenerator.Generate(QRCodeContent, ErrorCorrectionLevel.High);
-        var svg = SvgRenderer.Render(data, new Renderers.Size(128, 128));
+        var svg = SvgRenderer.Render(data, new System.Drawing.Size(128, 128));
 
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_render_svg_qrcode_viewbox_mode), svg);
         HelperFunctions.TestByHash(svg, "56719c7db39937c74377855a5dc4af0a");
@@ -45,7 +45,7 @@ public class SvgQrCodeRendererTests
     public void can_render_svg_qrcode_viewbox_mode_viewboxattr()
     {
         var data = QrCodeGenerator.Generate(QRCodeContent, ErrorCorrectionLevel.High);
-        var svg = SvgRenderer.Render(data, new Renderers.Size(128, 128), sizingMode: SvgRenderer.SizingMode.ViewBoxAttribute);
+        var svg = SvgRenderer.Render(data, new System.Drawing.Size(128, 128), sizingMode: SvgRenderer.SizingMode.ViewBoxAttribute);
 
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_render_svg_qrcode_viewbox_mode_viewboxattr), svg);
         HelperFunctions.TestByHash(svg, "788afdb693b0b71eed344e495c180b60");

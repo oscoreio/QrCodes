@@ -1,4 +1,5 @@
 ﻿using QrCodes.Renderers;
+using QrCodes.Renderers.Abstractions;
 using Xunit;
 using QrCodes.Tests.Helpers;
 using SixLabors.ImageSharp;
@@ -15,7 +16,10 @@ public partial class ImageSharpRendererTests
     public void can_create_qrcode_standard_graphic()
     {
         var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 10);
+        var image = ImageSharpRenderer.Render(data, new RendererSettings
+        {
+            PixelsPerModule = 10,
+        });
         
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_standard_graphic), image);
         HelperFunctions.TestByDecode(image, QrCodeContent);
@@ -26,7 +30,10 @@ public partial class ImageSharpRendererTests
     public void can_create_qrcode_standard_graphic_hex()
     {
         var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 10, Color.Parse("#000000"), Color.Parse("#ffffff"));
+        var image = ImageSharpRenderer.Render(data, new RendererSettings
+        {
+            PixelsPerModule = 10,
+        });
         
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_standard_graphic_hex), image);
         HelperFunctions.TestByDecode(image, QrCodeContent);
@@ -41,10 +48,11 @@ public partial class ImageSharpRendererTests
             eccLevel: ErrorCorrectionLevel.High);
         var image = ImageSharpRenderer.Render(
             data: qrCode,
-            pixelsPerModule: 5,
-            darkColor: Color.Black,
-            lightColor: Color.White,
-            drawQuietZones: false);
+            settings: new RendererSettings
+            {
+                PixelsPerModule = 5,
+                DrawQuietZones = false,
+            });
         
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_create_qrcode_standard_graphic_without_quietzones), image);
         HelperFunctions.TestByDecode(image, QrCodeContent);
@@ -55,7 +63,10 @@ public partial class ImageSharpRendererTests
     public void can_render_qrcode_from_helper()
     {
         var data = QrCodeGenerator.Generate(QrCodeContent, ErrorCorrectionLevel.High);
-        var image = ImageSharpRenderer.Render(data, 10, Color.Black, Color.White);
+        var image = ImageSharpRenderer.Render(data, new RendererSettings
+        {
+            PixelsPerModule = 10,
+        });
 
         HelperFunctions.TestImageToFile(VisualTestPath, nameof(can_render_qrcode_from_helper), image);
         HelperFunctions.TestByDecode(image, QrCodeContent);

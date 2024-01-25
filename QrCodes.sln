@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodes.Benchmarks", "src\benchmarks\QrCodes.Benchmarks\QrCodes.Benchmarks.csproj", "{507C686B-CBB2-4559-8FCC-DBFA90B3E987}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodes.SkiaSharp", "src\libs\QrCodes.SkiaSharp\QrCodes.SkiaSharp.csproj", "{DCBD2245-73F4-4644-AD0C-38D8197BABB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{507C686B-CBB2-4559-8FCC-DBFA90B3E987}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{507C686B-CBB2-4559-8FCC-DBFA90B3E987}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{507C686B-CBB2-4559-8FCC-DBFA90B3E987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCBD2245-73F4-4644-AD0C-38D8197BABB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCBD2245-73F4-4644-AD0C-38D8197BABB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCBD2245-73F4-4644-AD0C-38D8197BABB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCBD2245-73F4-4644-AD0C-38D8197BABB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{3DD2F019-43A1-4FD1-9169-8E722D0C49DB} = {4746EB5B-E37C-40F0-8CA6-7D03185F5370}
 		{594FD49C-F7AC-44EC-98D7-788E83D6260D} = {928D4422-05CE-4AC2-89B0-31060889AE6A}
 		{507C686B-CBB2-4559-8FCC-DBFA90B3E987} = {732F539D-3402-4E31-AD43-F3653C9F2F0C}
+		{DCBD2245-73F4-4644-AD0C-38D8197BABB4} = {928D4422-05CE-4AC2-89B0-31060889AE6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1493AEE4-9211-46E9-BFE6-8F629EAC5693}

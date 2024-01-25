@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\libs\QrCodes.ImageSharp\QrCodes.ImageSharp.csproj" />
+      <ProjectReference Include="..\..\libs\QrCodes.SkiaSharp\QrCodes.SkiaSharp.csproj" />
       <ProjectReference Include="..\..\libs\QrCodes\QrCodes.csproj" />
     </ItemGroup>
 

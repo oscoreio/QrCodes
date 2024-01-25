@@ -1,4 +1,4 @@
-namespace QrCodes.Renderers.Art;
+namespace QrCodes.Renderers.Abstractions;
 
 /// <summary>
 /// Defines how the quiet zones shall be rendered.
@@ -13,5 +13,5 @@ public enum QuietZoneStyle
     /// <summary>
     /// 
     /// </summary>
-    Flat
+    Flat,
 }
