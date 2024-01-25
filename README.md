@@ -1,6 +1,6 @@
 # QrCodes
 
-[![Nuget package](https://img.shields.io/nuget/vpre/QrCodes.Maui)](https://www.nuget.org/packages/QrCodes.Maui/)
+[![Nuget package](https://img.shields.io/nuget/vpre/Oscore.QrCodes.Maui)](https://www.nuget.org/packages/Oscore.QrCodes.Maui/)
 [![CI/CD](https://github.com/oscoreio/QrCodes/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/oscoreio/QrCodes/actions/workflows/dotnet.yml)
 [![License: MIT](https://img.shields.io/github/license/oscoreio/QrCodes)](https://github.com/oscoreio/QrCodes/blob/main/LICENSE)
 
@@ -52,17 +52,17 @@ Modern and efficient cross-platform QR code generation, rendering and serializat
 ### Usage
 ```
 // Base library with all payloads and some renderers(Ascii, Base64, Pdf, FastBitmap, FastPng, SVG, PostScript)
-dotnet add package QrCodes
+dotnet add package Oscore.QrCodes
 
 // SkiaSharpRenderer(Gif, Jpeg, Png, WebP, Bmp, Ico, Wbmp, Pkm, Ktx, Astc, Dng, Heif, Avif)
-dotnet add package QrCodes.SkiaSharp
+dotnet add package Oscore.QrCodes.SkiaSharp
 // ImageSharpRenderer(Gif, Jpeg, Png, WebP, Bmp, Pbm, Tga, Tiff)
-dotnet add package QrCodes.ImageSharp
+dotnet add package Oscore.QrCodes.ImageSharp
 // SystemDrawingRenderer(Gif, Jpeg, Png, Bmp, Tiff)
-dotnet add package QrCodes.System.Drawing
+dotnet add package Oscore.QrCodes.System.Drawing
 
 // MAUI helpers(QrCodeSource and QrCodeExtension markup extension). Uses SkiaSharpRenderer.
-dotnet add package QrCodes.Maui
+dotnet add package Oscore.QrCodes.Maui
 ```
 
 #### Generate QR code
