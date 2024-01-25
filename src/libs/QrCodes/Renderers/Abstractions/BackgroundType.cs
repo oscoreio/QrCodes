@@ -14,4 +14,9 @@ public enum BackgroundType
     /// 
     /// </summary>
     Rectangle,
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    RoundRectangle,
 }

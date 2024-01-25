@@ -138,6 +138,13 @@
                 SelectedItem="{x:Static renderers:BackgroundType.Circle}" />
             <Label
                 HorizontalTextAlignment="Center"
+                Text="DotStyle:" />
+            <Picker
+                x:Name="DotStylePicker"
+                ItemsSource="{qr:Enum Type={x:Type renderers:BackgroundType}}"
+                SelectedItem="{x:Static renderers:BackgroundType.Rectangle}" />
+            <Label
+                HorizontalTextAlignment="Center"
                 Text="{Binding Value, Source={x:Reference IconSizePercentSlider}, StringFormat='IconSizePercent: {0}'}" />
             <Slider
                 x:Name="IconSizePercentSlider"
@@ -182,6 +189,8 @@
                                                             Source={x:Reference IconBorderWidthSlider}},
                                    BackgroundType={Binding SelectedItem,
                                                            Source={x:Reference BackgroundTypePicker}},
+                                   DotStyle={Binding SelectedItem,
+                                                     Source={x:Reference DotStylePicker}},
                                    IconBackgroundColor={Binding SelectedItem,
                                                                 Source={x:Reference IconBackgroundColorPicker}}}"
                 WidthRequest="400" />

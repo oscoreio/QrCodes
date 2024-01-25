@@ -29,13 +29,14 @@ public class SkiaSharpRenderer : IRenderer
 
         using var bitmap = new SKBitmap(new SKImageInfo(width: size, height: size));
         using var canvas = new SKCanvas(bitmap);
+        
+        canvas.Clear(settings.LightColor.ToSkiaSharpColor());
+        
         DrawQrCode(
             data: data,
             canvas: canvas,
-            pixelsPerModule: settings.PixelsPerModule,
-            moduleOffset: moduleOffset,
-            darkColor: settings.DarkColor.ToSkiaSharpColor(),
-            lightColor: settings.LightColor.ToSkiaSharpColor());
+            settings: settings,
+            moduleOffset: moduleOffset);
         
         if (settings is { IconBytes: not null, IconSizePercent: > 0 and <= 100 })
         {
@@ -67,9 +68,22 @@ public class SkiaSharpRenderer : IRenderer
                             radius: iconDestWidth / 2.0f + settings.IconBorderWidth,
                             paint: paint);
                         break;
+                    
                     case BackgroundType.Rectangle:
-                        canvas.DrawRect(centerDest, paint);
+                        canvas.DrawRect(
+                            rect: centerDest,
+                            paint: paint);
                         break;
+                    
+                    
+                    case BackgroundType.RoundRectangle:
+                        canvas.DrawRoundRect(
+                            rect: centerDest,
+                            rx: iconDestWidth * 0.25F,
+                            ry: iconDestHeight * 0.25F,
+                            paint: paint);
+                        break;
+                        
                     default:
                         throw new ArgumentOutOfRangeException(nameof(settings), settings.BackgroundType, null);
                 }
@@ -92,30 +106,55 @@ public class SkiaSharpRenderer : IRenderer
     private static void DrawQrCode(
         QrCode data,
         SKCanvas canvas,
-        int pixelsPerModule,
-        int moduleOffset,
-        SKColor darkColor,
-        SKColor lightColor)
+        RendererSettings settings,
+        int moduleOffset)
     {
-        using var lightPaint = new SKPaint();
-        lightPaint.Color = lightColor;
-        lightPaint.Style = SKPaintStyle.Fill;
         using var darkPaint = new SKPaint();
-        darkPaint.Color = darkColor;
+        darkPaint.Color = settings.DarkColor.ToSkiaSharpColor();
         darkPaint.Style = SKPaintStyle.Fill;
         
         for (var modY = moduleOffset; modY < data.ModuleMatrix.Count - moduleOffset; modY++)
         {
             for (var modX = moduleOffset; modX < data.ModuleMatrix.Count - moduleOffset; modX++)
             {
-                canvas.DrawRect(
-                    x: (modX - moduleOffset) * pixelsPerModule,
-                    y: (modY - moduleOffset) * pixelsPerModule,
-                    w: pixelsPerModule,
-                    h: pixelsPerModule,
-                    paint: data.ModuleMatrix[modY][modX]
-                        ? darkPaint
-                        : lightPaint);
+                if (!data.ModuleMatrix[modY][modX])
+                {
+                    continue;
+                }
+                
+                switch (settings.DotStyle)
+                {
+                    case BackgroundType.Circle:
+                        canvas.DrawCircle(
+                            cx: (modX - moduleOffset + 0.5F) * settings.PixelsPerModule,
+                            cy: (modY - moduleOffset + 0.5F) * settings.PixelsPerModule,
+                            radius: settings.PixelsPerModule * 0.5F,
+                            paint: darkPaint);
+                        break;
+                    
+                    case BackgroundType.Rectangle:
+                        canvas.DrawRect(
+                            x: (modX - moduleOffset) * settings.PixelsPerModule,
+                            y: (modY - moduleOffset) * settings.PixelsPerModule,
+                            w: settings.PixelsPerModule,
+                            h: settings.PixelsPerModule,
+                            paint: darkPaint);
+                        break;
+                    
+                    case BackgroundType.RoundRectangle:
+                        canvas.DrawRoundRect(
+                            x: (modX - moduleOffset) * settings.PixelsPerModule,
+                            y: (modY - moduleOffset) * settings.PixelsPerModule,
+                            w: settings.PixelsPerModule,
+                            h: settings.PixelsPerModule,
+                            paint: darkPaint,
+                            rx: settings.PixelsPerModule * 0.25F,
+                            ry: settings.PixelsPerModule * 0.25F);
+                        break;
+                    
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(settings), settings.BackgroundType, null);
+                }
             }
         }
     }

@@ -57,6 +57,11 @@ public class RendererSettings
     /// <summary>
     /// 
     /// </summary>
+    public BackgroundType DotStyle { get; set; } = BackgroundType.Rectangle;
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public BackgroundType BackgroundType { get; set; } = BackgroundType.Circle;
     
     /// <summary>

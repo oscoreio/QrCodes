@@ -7,13 +7,13 @@ public enum FileFormat
 {
     /// <summary>
     /// The BMP image format. <br/>
-    /// Available in SkiaSharp and ImageSharp.
+    /// Available in SkiaSharp, ImageSharp and System.Drawing.
     /// </summary>
     Bmp,
     
     /// <summary>
     /// The GIF image format. <br/>
-    /// Available in SkiaSharp and ImageSharp.
+    /// Available in SkiaSharp, ImageSharp and System.Drawing.
     /// </summary>
     Gif,
     
@@ -25,13 +25,13 @@ public enum FileFormat
     
     /// <summary>
     /// The JPEG image format. <br/>
-    /// Available in SkiaSharp and ImageSharp.
+    /// Available in SkiaSharp, ImageSharp and System.Drawing.
     /// </summary>
     Jpeg,
     
     /// <summary>
     /// The PNG image format. <br/>
-    /// Available in SkiaSharp and ImageSharp.
+    /// Available in SkiaSharp, ImageSharp and System.Drawing.
     /// </summary>
     Png,
     
@@ -100,7 +100,7 @@ public enum FileFormat
         
     /// <summary>
     /// Tagged Image File Format, a file format for storing images. <br/>
-    /// Available in ImageSharp.
+    /// Available in ImageSharp and System.Drawing.
     /// </summary>
     Tiff,
 }

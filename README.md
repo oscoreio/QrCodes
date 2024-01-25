@@ -44,28 +44,31 @@ It contains various payloads and framework helpers for MAUI.
 
 ### Usage
 ```
-// Base library with all payloads and some renderers(Ascii, Base64, Bitmap, PNG, SVG, PostScript)
+// Base library with all payloads and some renderers(Ascii, Base64, Pdf, FastBitmap, FastPng, SVG, PostScript)
 dotnet add package QrCodes
-// ImageSharpRenderer(Gif, Jpeg, Png, WebP, Bmp, Pbm, Tga, Tiff), Export to PDF
+
+// SkiaSharpRenderer(Gif, Jpeg, Png, WebP, Bmp, Ico, Wbmp, Pkm, Ktx, Astc, Dng, Heif, Avif)
+dotnet add package QrCodes.SkiaSharp
+// ImageSharpRenderer(Gif, Jpeg, Png, WebP, Bmp, Pbm, Tga, Tiff)
 dotnet add package QrCodes.ImageSharp
-// SkiaSharpRenderer(Gif, Jpeg, Png, WebP, Bmp, Ico, Wbmp, Pkm, Ktx, Astc, Dng, Heif, Avif), Export to PDF
-dotnet add package QrCodes.ImageSharp
+// SystemDrawingRenderer(Gif, Jpeg, Png, Bmp, Tiff)
+dotnet add package QrCodes.System.Drawing
+
 // MAUI helpers(QrCodeSource and QrCodeExtension markup extension). Uses SkiaSharpRenderer.
 dotnet add package QrCodes.Maui
 ```
 
-#### Generate QR code with logo image
+#### Generate QR code
 ```csharp
 var qrCode = QrCodeGenerator.Generate(
     plainText: new Telegram(user: "havendv").ToString(),
     eccLevel: ErrorCorrectionLevel.High);
-using var image = SkiaSharpRenderer.Render(
-    data: qrCode,
-    pixelsPerModule: 5,
-    darkColor: Color.Black,
-    lightColor: Color.White,
-    drawQuietZones: false);
-var bytes = image.ToBytes(FileFormat.Png);
+using var pngBytes = SkiaSharpRenderer.RenderToBytes(
+    data,
+    settings: new RendererSettings
+    {
+        DarkColor = Color.Red,
+    });
 ```
 
 #### Generate ImageSource for MAUI
