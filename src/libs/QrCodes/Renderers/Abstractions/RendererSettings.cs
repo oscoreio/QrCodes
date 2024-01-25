@@ -60,6 +60,11 @@ public class RendererSettings
     public BackgroundType DotStyle { get; set; } = BackgroundType.Rectangle;
     
     /// <summary>
+    /// Connect the dots with lines. Default - true.
+    /// </summary>
+    public bool ConnectDots { get; set; } = true;
+    
+    /// <summary>
     /// 
     /// </summary>
     public BackgroundType BackgroundType { get; set; } = BackgroundType.Circle;

@@ -155,6 +155,30 @@ public class SkiaSharpRenderer : IRenderer
                     default:
                         throw new ArgumentOutOfRangeException(nameof(settings), settings.BackgroundType, null);
                 }
+                
+                if (settings is { ConnectDots: true, DotStyle: not BackgroundType.Rectangle })
+                {
+                    if (modX < data.ModuleMatrix.Count - moduleOffset - 1 &&
+                        data.ModuleMatrix[modY][modX] && data.ModuleMatrix[modY][modX + 1])
+                    {
+                        canvas.DrawRect(
+                            x: (modX - moduleOffset + 0.5F) * settings.PixelsPerModule,
+                            y: (modY - moduleOffset) * settings.PixelsPerModule,
+                            w: settings.PixelsPerModule,
+                            h: settings.PixelsPerModule,
+                            paint: darkPaint);
+                    }
+                    if (modY < data.ModuleMatrix.Count - moduleOffset - 1 &&
+                        data.ModuleMatrix[modY][modX] && data.ModuleMatrix[modY + 1][modX])
+                    {
+                        canvas.DrawRect(
+                            x: (modX - moduleOffset) * settings.PixelsPerModule,
+                            y: (modY - moduleOffset + 0.5F) * settings.PixelsPerModule,
+                            w: settings.PixelsPerModule,
+                            h: settings.PixelsPerModule,
+                            paint: darkPaint);
+                    }
+                }
             }
         }
     }

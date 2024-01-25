@@ -1,12 +1,12 @@
 # QrCodes
 Modern and efficient cross-platform QR code generation, rendering and serialization. 
-It contains various payloads and framework helpers for MAUI.  
 
 ### 🔥 Features 🔥
 - Use SkiaSharp/ImageSharp instead of System.Drawing to be cross-platform.
 - Support latest dotnet versions.
 - Generate QR code with logo image.
-- Supports next payloads
+- Allows many different styles.
+- Supports many predefined payloads:
   - BezahlCode
   - Bitcoin like address
   - Bookmark
@@ -33,11 +33,12 @@ It contains various payloads and framework helpers for MAUI.
   - Base64
   - SVG
   - PostScript
+  - PDF
   - FastPngRenderer - fast but not support all features
   - Bitmap(.bmp) - fast but not support all features
   - ImageSharp - powerful, allows many features and export formats
   - SkiaSharp - powerful, allows many features and export formats
-  - PDF - powered by ImageSharp
+  - System.Drawing - legacy, only windows, not support all features
 - Supports helpers for MAUI
   - QrCodeSource - ImageSource to produce QR code
   - QrCodeExtension markup extension - Simplifies usage of QrCodeSource
@@ -77,7 +78,7 @@ You can test all variants using [QrCodes.SampleApp MAUI app](sample)
 xmlns:qr="clr-namespace:QrCodes.Maui;assembly=QrCodes.Maui"
 ```
 ```xml
-<Image Source="{qr:QrCode 'Fixed value'}" />
+<Image Source="{qr:QrCode 'https://t.me/havendv'}" />
 ```
 
 ### Links

@@ -23,6 +23,7 @@ namespace QrCodes.Maui;
 [DependencyProperty<Color>("IconBackgroundColor", DefaultValueExpression = "Colors.Transparent", OnChanged = nameof(OnChanged))]
 [DependencyProperty<BackgroundType>("BackgroundType", DefaultValue = BackgroundType.Circle, OnChanged = nameof(OnChanged))]
 [DependencyProperty<BackgroundType>("DotStyle", DefaultValue = BackgroundType.Rectangle, OnChanged = nameof(OnChanged))]
+[DependencyProperty<bool>("ConnectDots", DefaultValue = true, OnChanged = nameof(OnChanged))]
 [DependencyProperty<ImageSource>("LogoSource")]
 public partial class QrCodeSource : StreamImageSource
 {
@@ -75,6 +76,7 @@ public partial class QrCodeSource : StreamImageSource
                 FileFormat = FileFormat,
                 Quality = Quality,
                 DotStyle = DotStyle,
+                ConnectDots = ConnectDots,
             });
 
         return Task.FromResult(stream);
