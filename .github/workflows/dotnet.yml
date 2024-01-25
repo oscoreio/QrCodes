@@ -36,6 +36,14 @@ jobs:
         run: dotnet build src/libs/QrCodes.ImageSharp
           --configuration Release
 
+      - name: Build QrCodes.SkiaSharp
+        run: dotnet build src/libs/QrCodes.SkiaSharp
+          --configuration Release
+
+      - name: Build QrCodes.System.Drawing
+        run: dotnet build src/libs/QrCodes.System.Drawing
+          --configuration Release
+
       - name: Build QrCodes.Maui
         run: dotnet build src/libs/QrCodes.Maui
           --configuration Release
