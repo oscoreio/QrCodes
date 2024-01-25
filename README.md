@@ -134,3 +134,8 @@ It was forked from the [QRCoder-ImageSharp](https://github.com/JPlenert/QRCoder-
 QRCoder is a project by [Raffael Herrmann](https://raffaelherrmann.de) and was first released in 10/2013.  
 QRCoder-ImageSharp is a project by [Joerg Plenert](https://plenert.net).  
 It's licensed under the [MIT license](https://github.com/JPlenert/QRCoder.ImageSharp/blob/master/license.txt).
+
+### Disclaimer
+Although the library includes many things, 
+we only use and support QrCodes/SkiaSharp/Maui functionality.  
+But we will be happy to accept your PR regarding ImageSharp/SystemDrawing/WPF/other renderers.
