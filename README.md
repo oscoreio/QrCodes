@@ -1,5 +1,11 @@
 # QrCodes
-Modern and efficient cross-platform QR code generation, rendering and serialization. 
+
+[![Nuget package](https://img.shields.io/nuget/vpre/QrCodes.Maui)](https://www.nuget.org/packages/QrCodes.Maui/)
+[![CI/CD](https://github.com/oscoreio/QrCodes/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/oscoreio/QrCodes/actions/workflows/dotnet.yml)
+[![License: MIT](https://img.shields.io/github/license/oscoreio/QrCodes)](https://github.com/oscoreio/QrCodes/blob/main/LICENSE)
+
+Modern and efficient cross-platform QR code generation, rendering and serialization.  
+![qr](assets/qr.png)
 
 ### 🔥 Features 🔥
 - Use SkiaSharp/ImageSharp instead of System.Drawing to be cross-platform.
@@ -62,7 +68,7 @@ dotnet add package QrCodes.Maui
 #### Generate QR code
 ```csharp
 var qrCode = QrCodeGenerator.Generate(
-    plainText: new Telegram(user: "havendv").ToString(),
+    plainText: new Mail(email: "hello@oscore.io").ToString(),
     eccLevel: ErrorCorrectionLevel.High);
 using var pngBytes = SkiaSharpRenderer.RenderToBytes(
     data,
@@ -78,7 +84,7 @@ You can test all variants using [QrCodes.SampleApp MAUI app](sample)
 xmlns:qr="clr-namespace:QrCodes.Maui;assembly=QrCodes.Maui"
 ```
 ```xml
-<Image Source="{qr:QrCode 'https://t.me/havendv'}" />
+<Image Source="{qr:QrCode 'https://oscore.io/'}" />
 ```
 
 ### Links

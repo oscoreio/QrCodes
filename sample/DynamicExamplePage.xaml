@@ -74,6 +74,7 @@
                     <x:Array Type="{x:Type ImageSource}">
                         <x:Null />
                         <FileImageSource File="apple_logo_black" />
+                        <FileImageSource File="oscore_logo" />
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
@@ -92,6 +93,7 @@
                         <x:Static Member="Colors.Blue" />
                         <x:Static Member="Colors.BlueViolet" />
                         <x:Static Member="Colors.Transparent" />
+                        <Color>#692878</Color>
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
@@ -110,6 +112,7 @@
                         <x:Static Member="Colors.Blue" />
                         <x:Static Member="Colors.BlueViolet" />
                         <x:Static Member="Colors.Transparent" />
+                        <Color>#692878</Color>
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
