@@ -26,7 +26,7 @@ public partial class PayloadTests
         var receiver = "john@doe.com";
         var encoding = Mail.MailEncoding.MailTo;
 
-        var generator = new Mail(mailReceiver: receiver, encoding: encoding);
+        var generator = new Mail(email: receiver, encoding: encoding);
 
         generator.ToString().Should().Be("mailto:john@doe.com");
     }

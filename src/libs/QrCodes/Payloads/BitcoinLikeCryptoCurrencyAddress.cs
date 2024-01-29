@@ -3,55 +3,32 @@ using System.Globalization;
 namespace QrCodes.Payloads;
 
 /// <summary>
-/// 
+/// Generates a Bitcoin like cryptocurrency payment payload. <br/>
+/// QR Codes with this payload can open a payment app. <br/>
+/// According: https://en.bitcoin.it/wiki/BIP_0021 <br/>
+/// Example: "bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=0.123" <br/>
 /// </summary>
-public class BitcoinLikeCryptoCurrencyAddress
+/// <param name="currencyType">Bitcoin like cryptocurrency address of the payment receiver</param>
+/// <param name="address">Bitcoin like cryptocurrency address of the payment receiver</param>
+/// <param name="amount">Amount of coins to transfer</param>
+/// <param name="label">Reference label</param>
+/// <param name="message">Reference text aka message</param>
+public class BitcoinLikeCryptoCurrencyAddress(
+    BitcoinLikeCryptoCurrencyAddress.BitcoinLikeCryptoCurrencyType currencyType,
+    string address,
+    double? amount = null,
+    string? label = null,
+    string? message = null)
 {
-    private readonly BitcoinLikeCryptoCurrencyType _currencyType;
-    private readonly string _address, _label = string.Empty, _message = string.Empty;
-    private readonly double? _amount;
-
-    /// <summary>
-    /// Generates a Bitcoin like cryptocurrency payment payload. QR Codes with this payload can open a payment app.
-    /// </summary>
-    /// <param name="currencyType">Bitcoin like cryptocurrency address of the payment receiver</param>
-    /// <param name="address">Bitcoin like cryptocurrency address of the payment receiver</param>
-    /// <param name="amount">Amount of coins to transfer</param>
-    /// <param name="label">Reference label</param>
-    /// <param name="message">Reference text aka message</param>
-    // ReSharper disable once MemberCanBeProtected.Global
-    public BitcoinLikeCryptoCurrencyAddress(
-        BitcoinLikeCryptoCurrencyType currencyType,
-        string address,
-        double? amount,
-        string? label = null,
-        string? message = null)
-    {
-        _currencyType = currencyType;
-        _address = address;
-
-        if (!string.IsNullOrEmpty(label))
-        {
-            _label = Uri.EscapeDataString(label);
-        }
-
-        if (!string.IsNullOrEmpty(message))
-        {
-            _message = Uri.EscapeDataString(message);
-        }
-
-        _amount = amount;
-    }
-
     /// <inheritdoc />
     public override string ToString()
     {
-        string? query = null;
+        var query = string.Empty;
 
         var queryValues = new[]{
-            new KeyValuePair<string, string?>("label", _label),
-            new KeyValuePair<string, string?>("message", _message),
-            new KeyValuePair<string, string?>("amount", _amount?.ToString("#.########", CultureInfo.InvariantCulture))
+            new KeyValuePair<string, string?>("label", Uri.EscapeDataString(label ?? string.Empty)),
+            new KeyValuePair<string, string?>("message", Uri.EscapeDataString(message ?? string.Empty)),
+            new KeyValuePair<string, string?>("amount", amount?.ToString("#.########", CultureInfo.InvariantCulture))
         };
 
         if (queryValues.Any(keyPair => !string.IsNullOrEmpty(keyPair.Value)))
@@ -62,7 +39,7 @@ public class BitcoinLikeCryptoCurrencyAddress
                 .ToArray());
         }
 
-        return $"{Enum.GetName(typeof(BitcoinLikeCryptoCurrencyType), _currencyType)?.ToLower(CultureInfo.InvariantCulture)}:{_address}{query}";
+        return $"{Enum.GetName(typeof(BitcoinLikeCryptoCurrencyType), currencyType)?.ToLower(CultureInfo.InvariantCulture)}:{address}{query}";
     }
 
     /// <summary>
@@ -83,6 +60,6 @@ public class BitcoinLikeCryptoCurrencyAddress
         /// <summary>
         /// 
         /// </summary>
-        Litecoin
+        Litecoin,
     }
 }

@@ -84,7 +84,7 @@ public static class HelperFunctions
         var fullPath = Path.Combine(path, $"qrtest_{testName}.png");
         image.Save(fullPath);
         
-        //Process.Start(new ProcessStartInfo(fullPath) { UseShellExecute = true });
+        Process.Start(new ProcessStartInfo(fullPath) { UseShellExecute = true });
     }
 
     public static void TestImageToFile(string path, string testName, byte[] data)

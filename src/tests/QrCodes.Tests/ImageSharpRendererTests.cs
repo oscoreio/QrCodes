@@ -2,7 +2,6 @@
 using QrCodes.Renderers.Abstractions;
 using Xunit;
 using QrCodes.Tests.Helpers;
-using SixLabors.ImageSharp;
 
 namespace QrCodes.Tests;
 
