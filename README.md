@@ -10,6 +10,7 @@ Modern and efficient cross-platform QR code generation, rendering and serializat
 ### 🔥 Features 🔥
 - Use SkiaSharp/ImageSharp instead of System.Drawing to be cross-platform.
 - Support latest dotnet versions.
+- Supports trimming/NativeAOT.
 - Generate QR code with logo image.
 - Allows many different styles.
 - Supports many predefined payloads:
