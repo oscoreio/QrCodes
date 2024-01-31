@@ -13,6 +13,17 @@ public static class ImageSourceExtensions
     /// <exception cref="InvalidOperationException"></exception>
     public static async Task<Stream> ToStreamAsync(this ImageSource imageSource)
     {
+        // if (imageSource is FileImageSource fileImageSource)
+        // {
+        //     var file = fileImageSource.File;
+        //     if (file is null)
+        //     {
+        //         throw new InvalidOperationException("File is null");
+        //     }
+        //     
+        //     return File.OpenRead(Path.Combine(FileSystem.AppDataDirectory, file));
+        // }
+        
         if (Application.Current?.Handler?.MauiContext is not {} mauiContext)
         {
             throw new InvalidOperationException("MauiContext is null");

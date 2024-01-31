@@ -21,15 +21,9 @@ namespace QrCodes.Payloads;
 public class RussiaPaymentOrder
 {
     private readonly CharacterSets characterSet;
-    private readonly MandatoryFields mFields;
-    private readonly OptionalFields oFields;
+    private readonly MandatoryFields mFields = new();
+    private readonly OptionalFields oFields = new();
     private string separator = "|";
-
-    private RussiaPaymentOrder()
-    {
-        mFields = new MandatoryFields();
-        oFields = new OptionalFields();
-    }
 
     /// <summary>
     /// Generates a RussiaPaymentOrder payload
@@ -48,7 +42,7 @@ public class RussiaPaymentOrder
         string BIC,
         string correspAcc,
         OptionalFields? optionalFields = null,
-        CharacterSets characterSet = CharacterSets.utf_8) : this()
+        CharacterSets characterSet = CharacterSets.utf_8)
     {
         this.characterSet = characterSet;
         mFields.Name = ValidateInput(name, "Name", @"^.{1,160}$");
@@ -142,25 +136,21 @@ public class RussiaPaymentOrder
     /// <returns>A List of strings</returns>
     private List<string> GetOptionalFieldsAsList()
     {
-#if NETSTANDARD1_3
-        return oFields.GetType().GetRuntimeProperties()
-                .Where(field => field.GetValue(oFields) != null)
-                .Select(field => {
-                    var objValue = field.GetValue(oFields, null);
-                    var value = field.PropertyType.Equals(typeof(DateTime?)) ? ((DateTime)objValue).ToString("dd.MM.yyyy") : objValue.ToString();
-                    return $"{field.Name}={value}";
-                })
-                .ToList();
-#else
-        return oFields.GetType().GetProperties()
-                .Where(field => field.GetValue(oFields, null) != null)
-                .Select(field => {
-                    var objValue = field.GetValue(oFields, null);
-                    var value = field.PropertyType == typeof(DateTime?) ? ((DateTime)objValue).ToString("dd.MM.yyyy") : objValue.ToString();
-                    return $"{field.Name}={value}";                            
-                 })
-                .ToList();
-#endif
+        // return oFields.GetType().GetProperties()
+        //     .Where(field => field.GetValue(oFields, null) != null)
+        //     .Select(field => {
+        //         var objValue = field.GetValue(oFields, null);
+        //         var value = field.PropertyType == typeof(DateTime?) ? ((DateTime)objValue).ToString("dd.MM.yyyy") : objValue.ToString();
+        //         return $"{field.Name}={value}";                            
+        //     })
+        //     .ToList();
+        return new Dictionary<string, string>
+            {
+                // TODO: implement other
+                [nameof(OptionalFields.Category)] = oFields.Category,
+            }
+            .Select(static pair => $"{pair.Key}={pair.Value}")
+            .ToList();
     }
 
 
@@ -170,25 +160,14 @@ public class RussiaPaymentOrder
     /// <returns>A List of strings</returns>
     private List<string> GetMandatoryFieldsAsList()
     {
-#if NETSTANDARD1_3
-        return mFields.GetType().GetRuntimeFields()
-                .Where(field => field.GetValue(mFields) != null)
-                .Select(field => {
-                    var objValue = field.GetValue(mFields);
-                    var value = field.FieldType.Equals(typeof(DateTime?)) ? ((DateTime)objValue).ToString("dd.MM.yyyy") : objValue.ToString();
-                    return $"{field.Name}={value}";
-                })
-                .ToList();
-#else
-        return mFields.GetType().GetFields()
-                .Where(field => field.GetValue(mFields) != null)
-                .Select(field => {
-                    var objValue = field.GetValue(mFields);
-                    var value = field.FieldType == typeof(DateTime?) ? ((DateTime)objValue).ToString("dd.MM.yyyy") : objValue.ToString();
-                    return $"{field.Name}={value}";                            
-                 })
-                .ToList();
-#endif
+        return
+        [
+            $"{nameof(MandatoryFields.Name)}={mFields.Name}",
+            $"{nameof(MandatoryFields.PersonalAcc)}={mFields.PersonalAcc}",
+            $"{nameof(MandatoryFields.BankName)}={mFields.BankName}",
+            $"{nameof(MandatoryFields.BIC)}={mFields.BIC}",
+            $"{nameof(MandatoryFields.CorrespAcc)}={mFields.CorrespAcc}"
+        ];
     }
 
     /// <summary>
@@ -238,7 +217,7 @@ public class RussiaPaymentOrder
         return input;
     }
 
-    private class MandatoryFields
+    internal class MandatoryFields
     {
         public string Name;
         public string PersonalAcc;                              

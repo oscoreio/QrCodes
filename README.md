@@ -95,6 +95,7 @@ xmlns:qr="clr-namespace:QrCodes.Maui;assembly=QrCodes.Maui"
 - https://qrapi.io/
 - https://github.com/manuelbl/QrCodeGenerator
 - https://qr.io/
+- https://github.com/guitarrapc/SkiaSharp.QrCode
 
 ### Benchmarks
 You can view the reports for each version [here](benchmarks)

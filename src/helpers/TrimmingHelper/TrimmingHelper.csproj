@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    
+    <PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\QrCodes\QrCodes.csproj" />
+    <ProjectReference Include="..\..\libs\QrCodes.ImageSharp\QrCodes.ImageSharp.csproj" />
+    <ProjectReference Include="..\..\libs\QrCodes.SkiaSharp\QrCodes.SkiaSharp.csproj" />
+    <ProjectReference Include="..\..\libs\QrCodes.System.Drawing\QrCodes.System.Drawing.csproj" />
+    <ProjectReference Include="..\..\libs\QrCodes.Maui\QrCodes.Maui.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TrimmerRootAssembly Include="QrCodes" />
+    <TrimmerRootAssembly Include="QrCodes.ImageSharp" />
+    <TrimmerRootAssembly Include="QrCodes.SkiaSharp" />
+    <TrimmerRootAssembly Include="QrCodes.System.Drawing" />
+    <TrimmerRootAssembly Include="QrCodes.Maui" />
+  </ItemGroup>
+
+  <PropertyGroup Label="Publish">
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('windows'))">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="!$([MSBuild]::IsOSPlatform('windows'))">osx-arm64</RuntimeIdentifier>
+
+    <SelfContained>true</SelfContained>
+  </PropertyGroup>
+
+  <Target Name="ProduceTrimmingWarnings" AfterTargets="Build">
+    <CallTarget Targets="Publish"/>
+  </Target>
+
+</Project>

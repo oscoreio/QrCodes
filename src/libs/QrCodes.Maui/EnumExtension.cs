@@ -23,7 +23,7 @@ public class EnumExtension : IMarkupExtension<IList>
         }
         
         return Enum
-            .GetValues(Type)
+            .GetValuesAsUnderlyingType(Type)
             .Cast<object>()
             .ToArray();
     }
