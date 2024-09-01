@@ -1,4 +1,4 @@
-name: Build and test
+name: Test
 on:
   pull_request:
     branches:
@@ -8,8 +8,8 @@ on:
       - '.github/workflows/**'
 
 jobs:
-  buind-test:
-    name: Build, test and publish
+  test:
+    name: Test
     runs-on: windows-latest
     steps:
       - name: Checkout
