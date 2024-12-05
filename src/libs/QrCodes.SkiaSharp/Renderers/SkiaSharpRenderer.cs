@@ -93,7 +93,7 @@ public class SkiaSharpRenderer : IRenderer
                 info: new SKImageInfo(
                     width: (int)iconDestWidth,
                     height: (int)iconDestHeight),
-                quality: SKFilterQuality.High);
+                sampling: SKSamplingOptions.Default);
             
             canvas.DrawBitmap(
                 resizedIconBitmap,
