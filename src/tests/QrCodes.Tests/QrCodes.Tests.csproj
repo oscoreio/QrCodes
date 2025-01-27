@@ -22,13 +22,13 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="FluentAssertions" Version="8.0.0" />
+		<PackageReference Include="FluentAssertions" Version="8.0.1" />
 		<PackageReference Include="H.Resources.Generator" Version="1.6.1">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ZXing.Net" Version="0.16.9" />
-		<PackageReference Include="ZXing.Net.Bindings.ImageSharp.V2" Version="0.16.16" />
+		<PackageReference Include="ZXing.Net" Version="0.16.10" />
+		<PackageReference Include="ZXing.Net.Bindings.ImageSharp.V2" Version="0.16.17" />
 	</ItemGroup>
 
 	<ItemGroup>
